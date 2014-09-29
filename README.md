@@ -2,6 +2,7 @@ BarcodScannerWidget_addOn
 =========================
 
 Addon of myHealthHub
+
 Build and Run the same as myHealthHub (required myHealthHub to be installed first)
 
 
