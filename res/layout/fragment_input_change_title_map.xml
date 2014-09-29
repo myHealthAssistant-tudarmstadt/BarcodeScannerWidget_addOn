@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/bottom_btn_lyot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/scan_del_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/scan_save_btn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:text="Save" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_content"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_above="@+id/bottom_btn_lyot"
+        android:singleLine="false"
+        android:text="This&apos;s the content of scanned code"
+        android:textAlignment="center" />
+
+    <!-- <RadioGroup -->
+    <!-- android:id="@+id/gender_group" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_above="@+id/bottom_btn_lyot" -->
+    <!-- android:visibility="gone" > -->
+
+
+    <!-- <RadioButton -->
+    <!-- android:id="@+id/rbtn_last_entry" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:checked="false" -->
+    <!-- android:text="Coke" > -->
+    <!-- </RadioButton> -->
+
+
+    <!-- <RadioButton -->
+    <!-- android:id="@+id/rbtn_second_to_last_entry" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="Pepsi" > -->
+    <!-- </RadioButton> -->
+
+
+    <!-- <RadioButton -->
+    <!-- android:id="@+id/rbtn_third_to_last_entry" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="Fanta" -->
+    <!-- android:visibility="visible" > -->
+    <!-- </RadioButton> -->
+    <!-- </RadioGroup> -->
+
+    <EditText
+        android:id="@+id/et_un"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="10dp"
+        android:singleLine="true"
+        android:text="Give The Title" />
+
+    <LinearLayout
+        android:id="@+id/support_map_lyot"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/et_un"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical" >
+
+        <fragment
+            android:id="@+id/location_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+
+        <!-- <com.google.android.gms.maps.MapView -->
+        <!-- android:id="@+id/location_map" -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="match_parent" -->
+        <!-- android:layout_margin="5dp" /> -->
+    </LinearLayout>
+
+</RelativeLayout>
