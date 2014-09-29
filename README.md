@@ -1,4 +1,4 @@
-BarcodScannerWidget_addOn
+BarcodeScannerWidget_addOn
 =========================
 
 Addon of myHealthHub
