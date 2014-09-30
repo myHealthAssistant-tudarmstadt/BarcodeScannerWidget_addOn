@@ -3,9 +3,10 @@ BarcodeScannerWidget_addOn
 
 Addon of myHealthHub
 
-Build and Run the same as myHealthHub (required myHealthHub to be installed first)
+Follow this link to setup the google play services and support library before building the app:
+https://developer.android.com/tools/support-library/setup.html http://developer.android.com/google/play-services/setup.html
 
-Follow this link to setup the google play services requirement http://developer.android.com/google/play-services/setup.html
+Build and Run the same as myHealthHub (required myHealthHub to be installed first)
 
 License
 ==============
