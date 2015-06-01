@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/photo_row_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center"
+        android:paddingStart="5dp"
+        android:paddingEnd="2dp"
+        android:paddingTop="5dp"
+        android:text="--/--/--\n--:--:--" />
+
+    <TextView
+        android:id="@+id/photo_row_contents"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/photo_row_date"
+        android:layout_weight="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="2dp"
+        android:paddingTop="5dp"
+        android:singleLine="false"
+        android:text="..." />
+
+</RelativeLayout><!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/layout/row_of_list.xml -->

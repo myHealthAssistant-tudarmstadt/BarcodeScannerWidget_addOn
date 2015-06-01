@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0708ef60917bf94913fe9ef972a655b99462dca7">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-46d620ea84d5f3f7a02afd09b4f0c2cd82fa027b.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="565a01f90f1529f73362707c4c185d0623a68782">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-ddd1b180510fe8f3f407ee61a30c17e98619aa0b.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="fe3e0c6de7cceed888b277487238b6af9a1cc299">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-f6f15884e6c919c2463663f06b8f4d44e2033439.jar" />
+    </item>
+    <item
+        jar="/home/lukas/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-f4ca94c30378d7240a9d9da5675c1897132f2012.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a0ce76dfaccbfbd6c551ed2174280aaabe60fe47">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-c902ee660273bb0a210cf25d56c1ce3419931d7c.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5ea948d825957be6c4358c48422bee60eef2d487">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-32490f2b3fb15df43a41731cc76efa21bd12c858.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b2c07cdb814fe988ad05f7b4d767a841514a5991">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-f376049fff21528cb530980acc7534325d094565.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-41874408a2d7c3dfda0d4dc5eff075de7ab40071.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7215ac1f2fca947b9415a6ee2a1bf991364aab24">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-819ec33ff1940ff3103aca51416ebf4d04fc5924.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appinvite/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="bb36004beb02b69562cbec9aa7d6a3cf16bf5d1b">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-f1b75b0101e1151203c2978a0cc2244e7b5c8702.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6046e5cdaf799120b7c56a5a061d80e8854c4d34">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-d6d6a7f1e9168e1ab93a5835160c990ce3eeed1b.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e35fae1b377c23aa5fd2d309a190c2d0f73d54ec">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-cbd85c09ce58c76e9553936e9b9584e3ee29b8ac.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-0a759ff79315ecf5a7d077d4a93a5d2e017da057.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3988694bf9d8186ff97ad5cdfa4ed88b5010fe08">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-73a4ed7ae1bc1e3290293567b778310b11fb3f41.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-b17f953d7256f520dfd6001a42d00df19b954ddd.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appstate/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0180d031a7b54dabb93b4af3869468b55dc938bd">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-a803774c1941bce560b469dfa13e346a02cb1c7d.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b48d5c51a9a9e329005106b4667f54948de4d4d8">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-56f5138b11c12c8544bc6a4ecb3a23fd938f568d.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e5b9f5b0aa8dee788beb63d23832cb29ce771343">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-3e6a06f447703f0cbebdf764622bfe35a8dcb500.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3b4ff5c39dace8f3b4ab4cab8191785547a0815f">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-e593488f05efd56430f1db8623449ca51713dbbe.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f2f7ec211ce4d244ee97a57523eeb4526dc3cf8a">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-7a1358bab7ccf1a816a88affc28a31e04d47f672.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e5bf453b070c1e39297986144960e45afa0fdfad">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-f06783a5e7008315cb5d0ef91870e814dfd0ad61.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-plus/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="59652857a825fff0de62166fca1bc9553cc01abb">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-e31f362a46dd38a36c20ea259da017eb6306b2aa.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/libs/acra-4.5.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="44a5eb946e0d83eed4a0128d877ca1fd8168b83a">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/acra-4.5.0-caabd9233d7cf0ceba7f6343771c8eb597c56ad4.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4f4fe3c23776540625f3c2844152a7510fddf9f1">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-b4f27540f57cbe948118839d490698998d944364.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9c9dea9e85aceb09d95df5e6f7bc8a43fc286068">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/classes-9cc0df89e21dfedcb1a51fa7d22c978e0f0fcfc1.jar" />
+    </item>
+    <item
+        jar="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/libs/myHealthHub.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="50639e1a7d2b801611e70a580ed7b3629ea5789c">
+        <dex dex="/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/pre-dexed/debug/myHealthHub-32b17739afb3947208c7e83f62009fbdf2b4c60e.jar" />
+    </item>
+
+</items>
