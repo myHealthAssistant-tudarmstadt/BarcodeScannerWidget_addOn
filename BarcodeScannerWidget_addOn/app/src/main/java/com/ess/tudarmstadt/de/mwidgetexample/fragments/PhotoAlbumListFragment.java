@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,17 +26,15 @@ import com.ess.tudarmstadt.de.mwidgetexample.utils.JSONArrayParser;
  */
 public class PhotoAlbumListFragment extends ListFragment {
 
-	private static String TAG = PhotoAlbumListFragment.class.getSimpleName();
 	public static final String JSON_PARSER = "jsonParser";
 
 	private mArrayAdapter mAdapter;
 
 	private OnListItemClickListener mCallback;
-	ListView listView;
 
 	public interface OnListItemClickListener {
-		public void onPhotoListItemClickListener(int id, String title,
-				String content, double longitude, double latitude, String objUri, int amount);
+		void onPhotoListItemClickListener(int id, String title,
+										  String content, double longitude, double latitude, String objUri, int amount);
 	}
 
 	public PhotoAlbumListFragment() {
@@ -61,9 +58,8 @@ public class PhotoAlbumListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e(TAG, "onCreate");
 
-		ArrayList<JSONObject> mListObj = new ArrayList<JSONObject>();
+		ArrayList<JSONObject> mListObj = new ArrayList<>();
 		// get the list of objects from parent activity
 		Bundle args = this.getArguments();
 		if (args != null && args.containsKey(JSON_PARSER)) {
@@ -100,7 +96,7 @@ public class PhotoAlbumListFragment extends ListFragment {
 
 		public mArrayAdapter(Activity activity, Context ctx) {
 			super(ctx, 0);
-			mInflater = (LayoutInflater) LayoutInflater.from(activity);
+			mInflater = LayoutInflater.from(activity);
 
 		}
 
@@ -130,15 +126,8 @@ public class PhotoAlbumListFragment extends ListFragment {
 			String content = key.optString(Constants.JSON_OBJECT_CONTENT)
 					+ key.optString(Constants.JSON_OBJECT_URI);
 			holder.content.setText(content);
-			int amount = key.optInt(Constants.JSON_OBJECT_AMOUNT) * 250;
-			StringBuilder sb = new StringBuilder();
-			sb.append(key.optString(Constants.JSON_OBJECT_TITLE));
-			sb.append(" - ");
-			sb.append(amount);
-			sb.append("ml");
-			holder.title.setText(sb.toString());
-
-
+			int amount = key.optInt(Constants.JSON_OBJECT_AMOUNT);
+			holder.title.setText(key.optString(Constants.JSON_OBJECT_TITLE) + " - " + amount + "ml");
 			return view;
 		}
 	}

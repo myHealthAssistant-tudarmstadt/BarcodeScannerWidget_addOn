@@ -20,11 +20,15 @@ public class Constants {
 	public static final String JSON_OBJECT_CONTENT = "OB_CONTENT";
 	public static final String JSON_OBJECT_URI = "OB_URI";
 	public static final String JSON_OBJECT_AMOUNT = "OB_AMOUNT";
-	
 	public static final String JSON_REQUEST_CONTENT_ARRAY ="jArray";
 	public static final String JSON_REQUEST_EDIT = "_edit";
 	public static final String JSON_REQUEST_DELETE = "_dele";
-	
+
+
+	public static final String JSON_OBJECT_SURVEY = "OB_SURVEY";
+
+
+	public static final String Survey_Intent = "OPEN_NEW_SURVEY";
 
 	public static void logDebug(String tag, String text){
 		String str = getCurrentDate("dd-MM-yyyy kk:mm ") + tag + ":\n" + text + "\n";
@@ -39,9 +43,8 @@ public class Constants {
 		return strDate;
 	}
 
-	public static boolean writeStringToLogFile(String outFileName,
+	public static void writeStringToLogFile(String outFileName,
 			String text) {
-		boolean returnCode = false;
 		File exportDir = new File(Environment.getExternalStorageDirectory() + "/BarcodeScannerWidget/data/", "");
 		File file = new File(exportDir, outFileName);
 		
@@ -55,10 +58,8 @@ public class Constants {
 			FileWriter filewriter = new FileWriter(file, true);
 			filewriter.append(text);
 			filewriter.close();
-			returnCode = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return returnCode;
 	}
 }

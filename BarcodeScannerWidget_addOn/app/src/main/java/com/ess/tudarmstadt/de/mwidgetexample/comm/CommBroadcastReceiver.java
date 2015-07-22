@@ -68,13 +68,6 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 	/**
 	 * Store scanned entry in database by sending encoded JSONObject to
 	 * myHealthHub with STORE-Request
-	 * 
-	 * @param date
-	 * @param time
-	 * @param title
-	 * @param contents
-	 * @param longitude
-	 * @param latitude
 	 */
 	public void storeEntry(String date, String time, String title,
 			String contents, String location, double longitude, double latitude) {
@@ -85,13 +78,6 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 	/**
 	 * Edit scanned entry in database by sending encoded JSONObject to
 	 * myHealthHub with Edit-Request
-	 * 
-	 * @param date
-	 * @param time
-	 * @param title
-	 * @param contents
-	 * @param longitude
-	 * @param latitude
 	 */
 	public void editEntry(int id, String date, String time, String title,
 			String contents, String location, double longitude, double latitude) {
@@ -102,13 +88,6 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 	/**
 	 * Delete scanned entry in database by sending encoded JSONObject to
 	 * myHealthHub with Delete-Request
-	 * 
-	 * @param date
-	 * @param time
-	 * @param title
-	 * @param contents
-	 * @param longitude
-	 * @param latitude
 	 */
 	public void deleteEntry(int id) {
 		controlEntry(Constants.JSON_REQUEST_DELETE, id, null, null, null,
@@ -131,7 +110,7 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 
 			// Publishes a management event to myHealthHub
 			publishEvent(eData, AbstractChannel.MANAGEMENT);
-		} catch (JSONException e) {
+		} catch (JSONException ignored) {
 
 		}
 
@@ -184,13 +163,6 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 	/**
 	 * Store encoded JSONObject in database by sending JSONObject to myHealthHub
 	 * with STORE-Request
-	 * 
-	 * @param date
-	 * @param time
-	 * @param title
-	 * @param contents
-	 * @param longitude
-	 * @param latitude
 	 */
 	public void storeEntry(JSONObject jObj) {
 		messageContrll(JSONDataExchange.JSON_STORE, jObj);
@@ -199,13 +171,6 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 	/**
 	 * Edit scanned entry in database by sending encoded JSONObject to
 	 * myHealthHub with Edit-Request
-	 * 
-	 * @param date
-	 * @param time
-	 * @param title
-	 * @param contents
-	 * @param longitude
-	 * @param latitude
 	 */
 	public void editEntry(JSONObject jObj) {
 		messageContrll(Constants.JSON_REQUEST_EDIT, jObj);

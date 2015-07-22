@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.ess.tudarmstadt.de.mwidgetexample"
-        minSdkVersion 12
-        targetSdkVersion 19
+        minSdkVersion 14
+        targetSdkVersion 22
     }
 
     buildTypes {
@@ -19,9 +19,9 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:20.+'
-    compile 'com.android.support:appcompat-v7:20.+'
-    compile 'com.google.android.gms:play-services:7.3.0'
+    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.google.android.gms:play-services:7.5.0'
     compile files('libs/acra-4.5.0.jar')
     compile files('libs/myHealthHub.jar')
 }

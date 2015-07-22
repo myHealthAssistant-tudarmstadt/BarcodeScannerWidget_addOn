@@ -2,7 +2,6 @@ package com.ess.tudarmstadt.de.mwidgetexample.fragments;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
@@ -12,7 +11,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -20,7 +18,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +28,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
-import android.widget.SeekBar;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -66,7 +61,7 @@ public class TitleEditorFragment extends Fragment {
 	private GoogleMap googleMap;
 	private MyLocation location;
 	private int amount = -1;
-	private NumberPicker numberPicker;
+	private EditText editTextAmount;
 	private ToggleButton showImg;
 	private ToggleButton showMap;
 	private boolean mapActive;
@@ -161,6 +156,16 @@ public class TitleEditorFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+				String amount = editTextAmount.getText().toString();
+				if (TextUtils.isEmpty(amount)) {
+					editTextAmount.setError("Menge eingeben!");
+					return;
+				}
+				String title = edTxt.getText().toString();
+				if (TextUtils.isEmpty(title)) {
+					edTxt.setError("Name eingeben!");
+					return;
+				}
 				saveAndDismiss(edTxt.getText().toString());
 			}
 		});
@@ -174,19 +179,8 @@ public class TitleEditorFragment extends Fragment {
 			}
 		});
 
-		numberPicker = (NumberPicker) rootView.findViewById(R.id.numberPicker);
-		numberPicker.setEnabled(true);
-		String[] values=new String[9];
-		for(int i=0; i<values.length; i++) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(Integer.toString(i*250));
-			sb.append("ml");
-			values[i]=sb.toString();
-		}
-		numberPicker.setMaxValue(values.length - 1);
-		numberPicker.setMinValue(0);
-		numberPicker.setDisplayedValues(values);
-		numberPicker.setValue(amount);
+		editTextAmount = (EditText) rootView.findViewById(R.id.edit_amount_tile);
+		editTextAmount.setText(String.valueOf(amount));
 
 		mapActive = true;
 		showMap = (ToggleButton) rootView.findViewById(R.id.map_btn);
@@ -196,8 +190,8 @@ public class TitleEditorFragment extends Fragment {
 					showMap.setChecked(true);
 					showImg.setChecked(false);
 					mapActive = true;
-					rootView.findViewById(R.id.location_map).setVisibility(rootView.VISIBLE);
-					rootView.findViewById(R.id.image_view).setVisibility(rootView.GONE);
+					rootView.findViewById(R.id.location_map).setVisibility(View.VISIBLE);
+					rootView.findViewById(R.id.image_view).setVisibility(View.GONE);
 				}
 			}
 		});
@@ -209,8 +203,8 @@ public class TitleEditorFragment extends Fragment {
 					showMap.setChecked(false);
 					showImg.setChecked(true);
 					mapActive = false;
-					rootView.findViewById(R.id.location_map).setVisibility(rootView.GONE);
-					rootView.findViewById(R.id.image_view).setVisibility(rootView.VISIBLE);
+					rootView.findViewById(R.id.location_map).setVisibility(View.GONE);
+					rootView.findViewById(R.id.image_view).setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -223,16 +217,14 @@ public class TitleEditorFragment extends Fragment {
 				Bitmap bitmap = BitmapFactory.decodeStream(is);
 				image.setImageBitmap(bitmap);
 				is.close();
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} {
 
 			}
 		} else {
-			showMap.setVisibility(rootView.GONE);
-			showImg.setVisibility(rootView.GONE);
+			showMap.setVisibility(View.GONE);
+			showImg.setVisibility(View.GONE);
 		}
 
 		return rootView;
@@ -246,7 +238,7 @@ public class TitleEditorFragment extends Fragment {
 
 		String obj_date = MainActivity.getTimestamp("dd-MM-yyyy");
 		String obj_time = MainActivity.getTimestamp("kk:mm:ss");
-		int amount = numberPicker.getValue();
+		int amount = Integer.parseInt(editTextAmount.getText().toString());
 		JSONObject key = new JSONObject();
 		try {
 			key.putOpt(Constants.JSON_OBJECT_ID, id);
@@ -390,59 +382,4 @@ public class TitleEditorFragment extends Fragment {
 
 		return result.toString();
 	}
-
-
-
-	/*
-
-	private class MyTask extends AsyncTask<String, String, String> {
-		private Context mContext;
-		private View rootView;
-		private String content;
-		public MyTask(Context context, View rootView, String pop_content) {
-			this.mContext = context;
-			this.rootView = rootView;
-			this.content = pop_content;
-		}
-		@Override
-		protected String doInBackground(String... params) {
-			String XmlData = "";
-			HttpURLConnection httpURLConnection;
-			BufferedReader bufferedReader;
-			StringBuilder sb = new StringBuilder();
-			sb.append("http://api.upcdatabase.org/xml/8f3d9ef8f378f007cf6c5fc4a93dd463/");
-			sb.append(content);
-			String link = sb.toString();
-			try {
-				URL url = new URL(link);
-				httpURLConnection = (HttpURLConnection) url.openConnection();
-				InputStream inputStream = httpURLConnection.getInputStream();
-				bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-				String line;
-				while ((line = bufferedReader.readLine()) != null) {
-					XmlData += line += "::";
-				}
-				if (httpURLConnection != null) {
-					httpURLConnection.disconnect();
-				}
-				if (bufferedReader != null) {
-					bufferedReader.close();
-				}
-			} catch(IOException e) {
-				Log.e("x", "x");
-			}
-			String[] XmlDataArray = XmlData.split("::");
-			String[] firstBrace = XmlDataArray[6].split(">");
-			String[] lastBrace = firstBrace[1].split("<");
-			Log.e("x", XmlDataArray[6]);
-			return lastBrace[0];
-		}
-		@Override
-		protected void onPostExecute(String result) {
-			final EditText edTxt = (EditText) rootView.findViewById(R.id.et_un);
-			edTxt.setText(result); // txt.setText(result);
-			// might want to change "executed" for the returned string passed
-			// into onPostExecute() but that is upto you
-		}
-	}		*/
 }

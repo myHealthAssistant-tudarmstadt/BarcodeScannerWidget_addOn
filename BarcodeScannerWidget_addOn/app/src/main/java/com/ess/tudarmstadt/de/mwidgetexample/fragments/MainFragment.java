@@ -25,15 +25,14 @@ public class MainFragment extends Fragment {
 	public static final int BARCODE_CAPTURE_TOKEN = 2;
 	public static final int PHOTO_CAPTURE_TOKEN = 1;
 	public static final int SHOW_ALBUM_TOKEN = 0;
-	public static final int RESULT_CLOSE_ALL = 6;
-	
+	public static final int SHOW_SURVEY_TOKEN = 4;
 
 	/** make sure the buttons being clicked only once**/
 	private boolean buttonFreeze = false;
 	
 	// Container Activity must implement this interface
 	public interface OnButtonClickListener {
-		public void onButtonClickListener(int token);
+		void onButtonClickListener(int token);
 	}
 
 	public MainFragment() {
@@ -87,6 +86,15 @@ public class MainFragment extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				invokeCallback(SHOW_ALBUM_TOKEN);
+			}
+		});
+
+		Button show_survey = (Button) rootView.findViewById(R.id.main_show_survey);
+		show_survey.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				invokeCallback(SHOW_SURVEY_TOKEN);
 			}
 		});
 

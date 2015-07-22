@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Main Fragment -->
+    <string name="version">Version 3.4</string>
+    <string name="what_to_do">What do you want to do?</string>
+    <string name="button_capture_bc">Capture Barcode</string>
+    <string name="button_capture_img">Capture Image</string>
+    <string name="button_show_list">Show List</string>
+    <string name="button_show_survey">Show Survey</string>
+
+    <!-- Amount Fragment -->
+    <string name="button_save">Save</string>
+    <string name="edit_text_amount">amount in ml:</string>
+    <string name="edit_text_name">name:</string>
+
+    <!-- input_change_title_map Fragment -->
+    <string name="button_del">Delete</string>
+    <string name="button_img">Image</string>
+    <string name="button_map">Map</string>
+
     <!-- ACRA -->
     <string name="crash_toast_text">Ooooops ! I crashed!</string>
     <string name="crash_notif_ticker_text">Unexpected error, please send a report...</string>
@@ -12,8 +30,54 @@
     <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
     <string name="crash_dialog_ok_toast">Thank you !</string>
 
+    <!-- surveys -->
+    <string-array name="survey1">
+        <item>Wenn ich im Augenblick durch etwas in Versuchung geführt würde, würde es mir sehr schwer fallen, zu widerstehen.</item>
+        <item>Ich kann keine Informationen mehr aufnehmen.</item>
+        <item>Ich fühle mich, als hätte ich keine Willenskraft mehr.</item>
+        <item>Mein geistiger Akku ist leer.</item>
+        <item>Ich fühle mich wach und konzentriert."</item>
+    </string-array>
+    <string-array name="survey2">
+        <item>Ich habe ein starkes Bedürfnis dazuzugehören.</item>
+    </string-array>
+    <string-array name="survey3">
+        <item>Ich identifiziere/fühle mich verbunden mit meinen Kommilitonen.</item>
+    </string-array>
+    <string-array name="survey4">
+        <item>Waren andere Personen anwesend?</item>
+        <item>Haben körperlich anwesende Personen Softdrinks getrunken?</item>
+        <item>Haben Personen, die in einem anderen Medium (z. B. TV, Radio, Internet) anwesend waren, Softdrinks getrunken?"</item>
+    </string-array>
+    <string-array name="survey5">
+        <item>Wie lang haben Sie seit der letzten Erinnerung TV und/oder Video/DVD/Blueray oder Videostreamingdienste(z.B. Netflix) geschaut?</item>
+        <item>Wie lang haben Sie das Internet seit der letzten Erinnerung genutzt? (Bitte berücksichtigen sie nicht die Zeit, die Sie nur zum Streamen von Filmen oder Musik verwendet haben.</item>
+        <item>Wie lang haben Sie am Computer/an der Spielekonsole seit der letzten Erinnerung gessesen und gespielt?</item>
+        <item>Wie lang haben sie aktiv an einer Spielekonsole seit der letzten Erinnerung gespielt(z.B. Wii, PlayStation Move)?</item>
+        <item>Wie lang haben sie seit der letzten Erinnnerung am Computer gemessen/gearbeitet? (Bitte berücksichtigen Sie nicht die Zeit, die sie nur zum Surfen oder Streamen von Filmen und Musik verwendet haben.)</item>
+        <item>Wie viel Zeit haben sie seit der letzten Erinnerung damit verbracht Kurznachrichten zu versenden?</item>
+        <item>Wie lang haben Sie seit der letzten Erinnerung Musik nur im Radio/mit dem Handy/über einen Streamingdienst gehört? (Bitte berücksichtigen Sie nicht die Zeit, während der Sie das Internet oder den Computer genutzt haben.</item>
+    </string-array>
+    <string-array name="survey6left">
+        <item>müde</item>
+        <item>zufrieden</item>
+        <item>ruhig</item>
+        <item>energielos</item>
+        <item>wohl</item>
+        <item>angespannt</item>
+    </string-array>
+    <string-array name="survey6right">
+        <item>wach</item>
+        <item>unzufrieden</item>
+        <item>unruhig</item>
+        <item>energiegeladen</item>
+        <item>unwohl</item>
+        <item>entspannt</item>
+    </string-array>
+
     <!--  -->
     <string name="app_name">BarCode Scanner Widget</string>
+    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="zxinglib_app_name">ZXingLib</string>
     <string name="zxinglib_msg_default_status">Place a barcode inside the viewfinder rectangle to scan it. </string>
@@ -134,5 +198,4 @@
     <string name="wifi_changing_network">Requesting connection to network\u2026</string>
     <string name="wifi_ssid_label">Network Name</string>
     <string name="wifi_type_label">Type</string>
-
 </resources>

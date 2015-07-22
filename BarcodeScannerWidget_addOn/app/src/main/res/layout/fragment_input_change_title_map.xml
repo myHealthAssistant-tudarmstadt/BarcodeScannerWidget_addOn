@@ -13,17 +13,17 @@
 
         <Button
             android:id="@+id/scan_del_btn"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
-            android:text="Delete" />
+            android:text="@string/button_del" />
 
         <Button
             android:id="@+id/scan_save_btn"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
-            android:text="Save" />
+            android:text="@string/button_save" />
     </LinearLayout>
 
     <TextView
@@ -39,7 +39,7 @@
         android:id="@+id/et_un"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/numberPicker"
+        android:layout_above="@+id/edit_amount_tile"
         android:layout_centerHorizontal="true"
         android:paddingTop="10dp"
         android:singleLine="true"
@@ -53,10 +53,11 @@
         android:singleLine="true"
         android:layout_centerHorizontal="true" />
 
-    <NumberPicker
+    <EditText
+        android:numeric="decimal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/numberPicker"
+        android:id="@+id/edit_amount_tile"
         android:layout_above="@+id/text_content"
         android:layout_centerHorizontal="true"
         android:orientation="vertical" />
@@ -97,16 +98,16 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
-            android:textOn="Map"
-            android:textOff="Map" />
+            android:textOn="@string/button_map"
+            android:textOff="@string/button_map" />
 
         <ToggleButton
             android:id="@+id/image_btn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
-            android:textOn="Image"
-            android:textOff="Image" />
+            android:textOn="@string/button_img"
+            android:textOff="@string/button_img" />
     </LinearLayout>
 
 </RelativeLayout>

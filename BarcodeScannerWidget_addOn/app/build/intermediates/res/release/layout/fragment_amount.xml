@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Save" />
+        android:text="@string/button_save" />
 
     <EditText
         android:id="@+id/name"
@@ -18,15 +18,33 @@
         android:layout_centerHorizontal="true"
         android:paddingTop="10dp"
         android:singleLine="true"
-        android:layout_above="@+id/numberPicker" />
+        android:gravity="center_horizontal"
+        android:layout_above="@+id/text_amount" />
 
-    <NumberPicker
-        android:layout_width="wrap_content"
+    <EditText
+        android:inputType="number"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/numberPicker"
+        android:id="@+id/edit_amount"
         android:layout_above="@+id/scan_save_btn"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:layout_weight="1" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_text_name"
+        android:id="@+id/textView"
+        android:layout_above="@+id/name"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_text_amount"
+        android:id="@+id/text_amount"
+        android:layout_above="@+id/edit_amount"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout><!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/layout/fragment_amount.xml -->

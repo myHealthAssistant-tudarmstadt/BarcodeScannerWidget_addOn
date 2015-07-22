@@ -2,12 +2,15 @@ package com.ess.tudarmstadt.de.mwidgetexample;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
@@ -16,6 +19,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,7 +32,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -36,12 +40,15 @@ import com.ess.tudarmstadt.de.mwidgetexample.comm.CommBroadcastReceiver.JSONResu
 import com.ess.tudarmstadt.de.mwidgetexample.fragments.AmountFragment;
 import com.ess.tudarmstadt.de.mwidgetexample.fragments.MainFragment;
 import com.ess.tudarmstadt.de.mwidgetexample.fragments.PhotoAlbumListFragment;
+import com.ess.tudarmstadt.de.mwidgetexample.fragments.SurveyFragment;
+import com.ess.tudarmstadt.de.mwidgetexample.fragments.SurveyListFragment;
 import com.ess.tudarmstadt.de.mwidgetexample.fragments.TitleEditorFragment;
 import com.ess.tudarmstadt.de.mwidgetexample.utils.Constants;
+import com.ess.tudarmstadt.de.mwidgetexample.utils.DBHelper;
 import com.ess.tudarmstadt.de.mwidgetexample.utils.JSONArrayParser;
 import com.google.zxing.client.android.CaptureActivity;
 
-import de.tudarmstadt.dvs.myhealthassistant.myhealthhub.IMyHealthHubRemoteService;
+
 import de.tudarmstadt.dvs.myhealthassistant.myhealthhub.events.AbstractChannel;
 
 /**
@@ -49,11 +56,13 @@ import de.tudarmstadt.dvs.myhealthassistant.myhealthhub.events.AbstractChannel;
  * @author HieuHa
  *
  */
+
 public class MainActivity extends ActionBarActivity implements
 		MainFragment.OnButtonClickListener,
 		TitleEditorFragment.HandleCallbackListener,
         AmountFragment.HandleCallbackListener,
 		PhotoAlbumListFragment.OnListItemClickListener,
+		SurveyFragment.HandleCallbackListener,
 		OnBackStackChangedListener {
 	private static final String TAG = MainActivity.class.getSimpleName();
 	private ProgressDialog progressDialog;
@@ -63,6 +72,13 @@ public class MainActivity extends ActionBarActivity implements
 
 	private CommBroadcastReceiver commUnit;
 	private String photo_OutputFileUri = "";
+
+	public static final String setAlarmsString = "com.ess.tudarmstadt.utils.prefs.alarms";
+	private static final String setVersionString = "com.ess.tudarmstadt.utils.version";
+
+	SharedPreferences prefs;
+
+	public static DBHelper mydb;
 
 	/** setting up the connection with myHealthHub */
 	private void connectToMhh() {
@@ -74,8 +90,8 @@ public class MainActivity extends ActionBarActivity implements
 			progressDialog.setIndeterminate(true);
 			progressDialog.show();
 
-			myHealthHubIntent = new Intent(
-					IMyHealthHubRemoteService.class.getName());
+			myHealthHubIntent = new Intent("de.tudarmstadt.dvs.myhealthassistant.myhealthhub.IMyHealthHubRemoteService");
+			myHealthHubIntent.setPackage("de.tudarmstadt.dvs.myhealthassistant.myhealthhub");
 			this.getApplicationContext()
 					.bindService(myHealthHubIntent,
 							myHealthAssistantRemoteConnection,
@@ -129,7 +145,7 @@ public class MainActivity extends ActionBarActivity implements
 		@Override
 		public void gotResult(JSONArray jObjArray) {
 			// Make a list of object entries from JSONArray
-			ArrayList<JSONObject> mListObj = new ArrayList<JSONObject>();
+			ArrayList<JSONObject> mListObj = new ArrayList<>();
 			boolean addToList;
 			
 			JSONArray jObjToDel = new JSONArray(); // list of duplicates to be removed
@@ -200,20 +216,53 @@ public class MainActivity extends ActionBarActivity implements
 
 		connectToMhh();
 
+		prefs = getSharedPreferences(
+				"com.ess.tudarmstadt.utils.prefs", Context.MODE_PRIVATE);
+
+		if (!prefs.getString(setVersionString, "").equals(getString((R.string.version)))) {
+			prefs.edit().putInt(setAlarmsString, 0).apply();
+			prefs.edit().putString(setVersionString, getString(R.string.version)).apply();
+
+		}
+
+		if (prefs.getInt(setAlarmsString, 0) == 0) {
+			Log.e("eee",String.valueOf(prefs.getInt(setAlarmsString, 0)));
+			alarmForSurvey();
+		}
+
 		// to exchange data with myHealthHub
 		commUnit = new CommBroadcastReceiver(this.getApplicationContext(),
 				jResult);
 		this.getApplicationContext().registerReceiver(commUnit,
                 new IntentFilter(AbstractChannel.MANAGEMENT));
-
-		if (savedInstanceState == null) {
+		Bundle extras;
+		extras = getIntent().getExtras();
+		if (extras != null) {
+			if (extras.getString("usage") != null) {
+				SurveyFragment fragment = new SurveyFragment();
+				Bundle bundle = new Bundle();
+				int time = extras.getInt("time", -1);
+				bundle.putInt("time", time);
+				fragment.setArguments(bundle);
+				FragmentTransaction transaction = getSupportFragmentManager()
+						.beginTransaction();
+				transaction.add(R.id.container, fragment);
+				transaction.commitAllowingStateLoss();
+			} else if (savedInstanceState == null) {
+				MainFragment fragment = new MainFragment();
+				FragmentTransaction transaction = getSupportFragmentManager()
+						.beginTransaction();
+				transaction.add(R.id.container, fragment);
+				transaction.commitAllowingStateLoss();
+			}
+		} else if (savedInstanceState == null) {
 			MainFragment fragment = new MainFragment();
 			FragmentTransaction transaction = getSupportFragmentManager()
 					.beginTransaction();
 			transaction.add(R.id.container, fragment);
 			transaction.commitAllowingStateLoss();
 		}
-
+		mydb = new DBHelper(this);
 	}
 
 	@Override
@@ -233,18 +282,6 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public void onButtonClickListener(int token) {
 		// Handle button click from MainFragment
 		Log.e(TAG, "buttonClicking: " + token);
@@ -261,7 +298,7 @@ public class MainActivity extends ActionBarActivity implements
 			File exportDir = new File(Environment.getExternalStorageDirectory()
 					+ "/BarcodeScannerWidget/camera/", "");
 			File file = new File(exportDir,
-					String.format(getTimestamp("yyyyMMddkkmm") + ".jpg"));
+					getTimestamp("yyyyMMddkkmm") + ".jpg");
 			if (!exportDir.exists()) {
 				exportDir.mkdirs();
 			}
@@ -283,7 +320,15 @@ public class MainActivity extends ActionBarActivity implements
 					progressDialog.show();
 				commUnit.getJSONEntryList();
 			}
+		} else if (token == MainFragment.SHOW_SURVEY_TOKEN) {
+			SurveyListFragment surveyListFragment = new SurveyListFragment();
 
+			FragmentTransaction transaction = getSupportFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.container, surveyListFragment);
+			transaction.addToBackStack(null);
+			// transaction.commit();
+			transaction.commitAllowingStateLoss();
 		}
 	}
 
@@ -296,8 +341,14 @@ public class MainActivity extends ActionBarActivity implements
 
             commUnit.storeEntry(key);
             updateAppWidget(key);
-
-            Handler mHandler = new Handler();
+			String barcode = "";
+			String title = "";
+			barcode = key.optString(Constants.JSON_OBJECT_CONTENT, "");
+			title = key.optString(Constants.JSON_OBJECT_TITLE, "");
+			if (!(barcode.equals("")) && !(title.equals(""))) {
+				mydb.insertBarcode(barcode, title);
+			}
+			Handler mHandler = new Handler();
             mHandler.postDelayed(new Runnable() {
 
 				@Override
@@ -310,6 +361,27 @@ public class MainActivity extends ActionBarActivity implements
 			}, 8000);
         }
     }
+
+	@Override
+	public void onSurveyCallbackListener (int survey, int[] values) {
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+		String formattedDate = df.format(c.getTime());
+		for (int i = 0; i < values.length; i++) {
+			mydb.insertValue(formattedDate, survey, i + 1, values[i]);
+		}
+		Intent intent = new Intent(this, com.ess.tudarmstadt.de.mwidgetexample.utils.AlarmReceiver.class);
+		intent.putExtra("time", survey - 1);
+		intent.putExtra("usage", "delete");
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		try {
+			pendingIntent.send();
+		} catch (PendingIntent.CanceledException e) {
+			e.printStackTrace();
+		}
+		Toast.makeText(this, "survey saved", Toast.LENGTH_SHORT).show();
+		finish();
+	}
 
 	@Override
 	public void onTitleEditorCallbackListener(int token, final JSONObject key) {
@@ -378,43 +450,7 @@ public class MainActivity extends ActionBarActivity implements
 			if (!photo_OutputFileUri.isEmpty() && resultCode == RESULT_OK) {
 				String obj_date = getTimestamp("dd-MM-yyyy");
 				String obj_time = getTimestamp("kk:mm:ss");
-				final JSONObject key = new JSONObject();
 				addNewBarcodeItem(-1, "", "", -1, -1, photo_OutputFileUri, -1);
-				/*try {
-					key.putOpt(Constants.JSON_OBJECT_ID, -1);
-					key.putOpt(Constants.JSON_OBJECT_TITLE, "");
-					key.putOpt(Constants.JSON_OBJECT_CONTENT, "");
-					key.putOpt(Constants.JSON_OBJECT_DATE, obj_date);
-					key.putOpt(Constants.JSON_OBJECT_TIME, obj_time);
-					key.putOpt(Constants.JSON_OBJECT_LONGITUDE, "");
-					key.putOpt(Constants.JSON_OBJECT_LATITUDE, "");
-					key.putOpt(Constants.JSON_OBJECT_LOCATION, "");
-					key.putOpt(Constants.JSON_OBJECT_URI, photo_OutputFileUri);
-
-					Log.e(TAG, key.toString());
-
-					if (progressDialog != null)
-						progressDialog.show();
-					if (commUnit != null) {
-						commUnit.storeEntry(key);
-						updateAppWidget(key);
-					}
-					photo_OutputFileUri = "";
-					
-					Handler mHandler = new Handler();
-					mHandler.postDelayed(new Runnable() {
-
-						@Override
-						public void run() {
-							if (progressDialog != null)
-								progressDialog.dismiss();
-							finish();
-						}
-					}, 8000);
-				} catch (JSONException e) {
-					Constants.logDebug(TAG, e.getMessage());
-					e.printStackTrace();
-				} */
 			}
 		}
 	}
@@ -486,7 +522,7 @@ public class MainActivity extends ActionBarActivity implements
 		String obj_content = key.optString(Constants.JSON_OBJECT_CONTENT, "");
 		String obj_uri = key.optString(Constants.JSON_OBJECT_URI, "");
 		String contents = obj_content + obj_uri;
-		if (contents != null && date != null) {
+		if (date != null) {
 			AppWidgetManager appWidgetManager = AppWidgetManager
 					.getInstance(this.getApplicationContext());
 
@@ -552,4 +588,35 @@ public class MainActivity extends ActionBarActivity implements
 		return true;
 	}
 
+	// Notification for survey
+	public void alarmForSurvey() {
+		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		Calendar[] calendars = new Calendar[6];
+		Intent[] intents = new Intent[6];
+		for (int i = 0; i < 6; i++) {
+			calendars[i] = Calendar.getInstance();
+			calendars[i].setTimeInMillis(System.currentTimeMillis());
+			switch(i) {
+				case 0: calendars[i].set(Calendar.HOUR_OF_DAY, 8);
+					break;
+				case 1: calendars[i].set(Calendar.HOUR_OF_DAY, 10);
+					break;
+				case 2: calendars[i].set(Calendar.HOUR_OF_DAY, 12);
+					break;
+				case 3: calendars[i].set(Calendar.HOUR_OF_DAY, 14);
+					break;
+				case 4: calendars[i].set(Calendar.HOUR_OF_DAY, 16);
+					break;
+				case 5: calendars[i].set(Calendar.HOUR_OF_DAY, 18);
+					break;
+			}
+			intents[i] = new Intent(getApplicationContext(), com.ess.tudarmstadt.de.mwidgetexample.utils.AlarmReceiver.class);
+			intents[i].putExtra("time", i);
+			intents[i].putExtra("usage", "create");
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intents[i], PendingIntent.FLAG_UPDATE_CURRENT);
+			alarmManager.cancel(pendingIntent);
+			alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendars[i].getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+		}
+		prefs.edit().putInt(setAlarmsString, 1).apply();
+	}
 }

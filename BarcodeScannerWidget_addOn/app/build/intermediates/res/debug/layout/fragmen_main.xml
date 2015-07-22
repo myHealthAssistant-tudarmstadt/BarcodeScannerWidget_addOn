@@ -11,40 +11,51 @@
         android:layout_margin="4dip"
         android:gravity="top|center_horizontal"
         android:singleLine="false"
-        android:text="What do you want to do?" >
+        android:text="@string/what_to_do" >
     </TextView>
 
     <Button
         android:id="@+id/main_cap_barcode"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/welcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dip"
         android:gravity="center_horizontal"
-        android:text="Capture Barcode"
+        android:text="@string/button_capture_bc"
         android:textAlignment="center" />
 
     <Button
         android:id="@+id/main_cap_photo"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/main_cap_barcode"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dip"
         android:gravity="center_horizontal"
-        android:text="Capture Image"
+        android:text="@string/button_capture_img"
         android:textAlignment="center" />
 
     <Button
         android:id="@+id/main_show_album"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/main_cap_photo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dip"
         android:gravity="center_horizontal"
-        android:text="Show List"
+        android:text="@string/button_show_list"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/main_show_survey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_show_album"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dip"
+        android:gravity="center_horizontal"
+        android:text="@string/button_show_survey"
         android:textAlignment="center" />
 
     <RelativeLayout
@@ -70,8 +81,8 @@
             android:layout_marginTop="50dip"
             android:gravity="center_horizontal"
             android:singleLine="true"
-            android:text="Version 2.0"
-            android:textSize="10dp"
+            android:text="@string/version"
+            android:textSize="12sp"
             android:layout_alignParentBottom="true" >
         </TextView>
 
@@ -84,6 +95,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/porcupine" >
         </ImageView>
-    </RelativeLayout>
+
+     </RelativeLayout>
 
 </RelativeLayout><!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/layout/fragmen_main.xml -->

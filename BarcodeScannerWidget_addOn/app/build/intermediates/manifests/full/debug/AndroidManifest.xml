@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ess.tudarmstadt.de.mwidgetexample"
-    android:versionCode="20"
-    android:versionName="2.0" >
+    android:versionCode="34"
+    android:versionName="3.4" >
 
     <uses-sdk
-        android:minSdkVersion="12"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="14"
+        android:targetSdkVersion="22" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
 
     <permission
@@ -63,6 +64,9 @@
         android:normalScreens="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
         android:name="com.ess.tudarmstadt.de.mwidgetexample.MyApplication"
@@ -167,13 +171,53 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
+        <receiver
+            android:name="com.ess.tudarmstadt.de.mwidgetexample.utils.AlarmReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.ess.tudarmstadt.de.mwidgetexample.newSurvey" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.ess.tudarmstadt.de.mwidgetexample.utils.AlarmReceiver2"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.ess.tudarmstadt.de.mwidgetexample.Notification" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.ess.tudarmstadt.de.mwidgetexample.utils.BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCIHBRoNEeReBXDqNW3ReIRbfPVmLTSfNk" />
+            android:value="AIzaSyCev1e_KwzMhhu3mSqTyfNbNwYkwkNuVyU" />
+        <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name="com.google.android.gms.ads.purchase.InAppPurchaseActivity"
+            android:theme="@style/Theme.IAPTheme" />
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
+        <receiver
+            android:name="com.google.android.gms.wallet.EnableWalletOptimizationReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.wallet.ENABLE_WALLET_OPTIMIZATION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
