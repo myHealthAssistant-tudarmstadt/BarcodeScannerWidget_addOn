@@ -27,7 +27,7 @@ public class AlarmReceiver2 extends BroadcastReceiver {
             Intent openSurvey = new Intent(context, com.ess.tudarmstadt.de.mwidgetexample.MainActivity.class);
             openSurvey.setAction("com.ess.tudarmstadt.de.mwidgetexample.openSurvey");
             Bundle extras = new Bundle();
-            extras.putInt("time", time);
+            extras.putInt("time", 0);
             extras.putString("usage", Constants.Survey_Intent);
             openSurvey.putExtras(extras);
             PendingIntent pIntent = PendingIntent.getActivity(context, 0, openSurvey, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -36,7 +36,7 @@ public class AlarmReceiver2 extends BroadcastReceiver {
 
             Notification notification;
             notification = builder.setContentIntent(pIntent)
-                    .setSmallIcon(R.drawable.zxinglib_icon)
+                    .setSmallIcon(R.drawable.survey)
                     .setAutoCancel(true)
                     .setContentTitle("Umfrage " + String.valueOf(time + 1))
                     .setContentText("Umfrage ausfüllen")

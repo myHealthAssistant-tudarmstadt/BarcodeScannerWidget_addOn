@@ -24,8 +24,7 @@ import android.os.Looper;
  * 
  */
 public class MyLocation{
-	private Timer timer1;
-	private int timeout = 70000; // 70sec
+	private Timer timer1 = new Timer();
 	private LocationManager lm;
 	private LocationResult locationResult;
 	private boolean gps_enabled = false;
@@ -66,7 +65,7 @@ public class MyLocation{
 					locationListenerGps, Looper.myLooper());
 		// lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 		// 0, locationListenerNetwork);
-		timer1 = new Timer();
+		int timeout = 70000;
 		timer1.schedule(new GetLastLocation(), timeout);
 		return true;
 	}

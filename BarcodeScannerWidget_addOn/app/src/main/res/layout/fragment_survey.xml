@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:text="Survey question."
         android:id="@+id/question"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"/>
 
     <RadioGroup
         android:layout_width="wrap_content"

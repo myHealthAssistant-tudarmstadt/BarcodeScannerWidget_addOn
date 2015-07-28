@@ -1,6 +1,7 @@
 package com.ess.tudarmstadt.de.mwidgetexample.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -43,7 +44,6 @@ public class AmountFragment extends Fragment {
     private double latitude, longitude;
     private String pop_content = "";
     private String pop_uri = "";
-    private NumberPicker numberPicker;
 
     private HandleCallbackListener mCallback;
     private EditText editText;
@@ -90,10 +90,34 @@ public class AmountFragment extends Fragment {
 
         editTextAmount = (EditText) rootView.findViewById(R.id.edit_amount);
 
+        editTextAmount.setText("250");
+
         editText = (EditText) rootView.findViewById(R.id.name);
 
         MyLocation location = new MyLocation();
         location.getLocation(this.getActivity().getApplicationContext(), locationResult);
+
+        Button plus = (Button) rootView.findViewById(R.id.plus_btn);
+        plus.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int ml = Integer.parseInt(editTextAmount.getText().toString());
+                ml += 10;
+                editTextAmount.setText(String.valueOf(ml));
+            }
+        });
+
+        Button minus = (Button) rootView.findViewById(R.id.minus_btn);
+        minus.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                int ml = Integer.parseInt(editTextAmount.getText().toString());
+                ml -= 10;
+                editTextAmount.setText(String.valueOf(ml));
+            }
+        });
 
         Button onSave = (Button) rootView.findViewById(R.id.scan_save_btn);
         onSave.setOnClickListener(new View.OnClickListener() {
@@ -197,17 +221,8 @@ public class AmountFragment extends Fragment {
 	private class MyTask extends AsyncTask<String, String, String> {
 		public MyTask() {
 		}
-		@Override
+        @Override
 		protected String doInBackground(String... params) {
-            // if the barcode is 8 Bits long the data has one new line more.
-            int ean;
-            if(pop_content.length() == 8) {
-                ean = 0;
-            } else if (pop_content.length() == 13) {
-                ean = 1;
-            } else {
-                return "";
-            }
             HttpURLConnection urlConnection = null;
             URL url = null;
             String[] data = new String[19];
@@ -215,7 +230,7 @@ public class AmountFragment extends Fragment {
                 data[i] = "";
 
             }
-            data[2] = "error=1";
+            int errorLine = 0;
             InputStream inStream = null;
             StringBuilder sb = new StringBuilder();
             sb.append("http://opengtindb.org/?ean=");
@@ -233,8 +248,14 @@ public class AmountFragment extends Fragment {
                 String temp;
                 int i = 0;
                 while ((temp = bReader.readLine()) != null) {
+                    if (temp.contains("error")) {
+                        errorLine = i;
+                    }
                     data[i] = temp;
                     i++;
+                }
+                if (errorLine == 0) {
+                    return "";
                 }
             } catch (Exception e) {
 
@@ -250,16 +271,12 @@ public class AmountFragment extends Fragment {
                     urlConnection.disconnect();
                 }
             }
-            if (data[1 + ean].equals("")) {
+            if (!data[errorLine].split("=")[1].equals("0")) {
                 return "";
             }
-            String error = data[1 + ean].split("=")[1];
-            if (!error.equals("0")) {
-                return "";
-            }
-            String name = data[5 + ean].split("=")[1];
+            String name = data[errorLine + 4].split("=")[1];
             if (name.equals("")) {
-                String detailName = data[4 + ean].split("=")[1];
+                String detailName = data[errorLine + 5].split("=")[1];
                 return detailName;
             }
             return name;

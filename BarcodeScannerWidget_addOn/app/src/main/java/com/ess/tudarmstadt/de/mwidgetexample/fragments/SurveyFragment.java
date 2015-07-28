@@ -38,7 +38,7 @@ public class SurveyFragment extends Fragment {
     private String[] question2;
     private String[] question3;
     private String[] question4;
-    private String[] question5;
+    private CharSequence[] question5;
     private String[] question6Left;
     private String[] question6Right;
     private int[] answer;
@@ -78,7 +78,7 @@ public class SurveyFragment extends Fragment {
         question2 = res.getStringArray(R.array.survey2);
         question3 = res.getStringArray(R.array.survey3);
         question4 = res.getStringArray(R.array.survey4);
-        question5 = res.getStringArray(R.array.survey5);
+        question5 = res.getTextArray(R.array.survey5);
         question6Left = res.getStringArray(R.array.survey6left);
         question6Right = res.getStringArray(R.array.survey6right);
 

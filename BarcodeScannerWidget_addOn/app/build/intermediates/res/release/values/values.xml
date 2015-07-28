@@ -67,13 +67,13 @@
         <item>Haben Personen, die in einem anderen Medium (z. B. TV, Radio, Internet) anwesend waren, Softdrinks getrunken?"</item>
     </string-array>
     <string-array name="survey5">
-        <item>Wie lang haben Sie seit der letzten Erinnerung TV und/oder Video/DVD/Blueray oder Videostreamingdienste(z.B. Netflix) geschaut?</item>
-        <item>Wie lang haben Sie das Internet seit der letzten Erinnerung genutzt? (Bitte berücksichtigen sie nicht die Zeit, die Sie nur zum Streamen von Filmen oder Musik verwendet haben.</item>
-        <item>Wie lang haben Sie am Computer/an der Spielekonsole seit der letzten Erinnerung gessesen und gespielt?</item>
-        <item>Wie lang haben sie aktiv an einer Spielekonsole seit der letzten Erinnerung gespielt(z.B. Wii, PlayStation Move)?</item>
-        <item>Wie lang haben sie seit der letzten Erinnnerung am Computer gemessen/gearbeitet? (Bitte berücksichtigen Sie nicht die Zeit, die sie nur zum Surfen oder Streamen von Filmen und Musik verwendet haben.)</item>
-        <item>Wie viel Zeit haben sie seit der letzten Erinnerung damit verbracht Kurznachrichten zu versenden?</item>
-        <item>Wie lang haben Sie seit der letzten Erinnerung Musik nur im Radio/mit dem Handy/über einen Streamingdienst gehört? (Bitte berücksichtigen Sie nicht die Zeit, während der Sie das Internet oder den Computer genutzt haben.</item>
+        <item><b>Wie lang haben Sie seit der letzten Erinnerung <u>TV und/oder Video/DVD/Blueray oder Videostreamingdienste(z.B. Netflix)</u> geschaut?</b></item>
+        <item><b>Wie lang haben Sie <u>das Internet</u> seit der letzten Erinnerung genutzt? (Bitte berücksichtigen sie <u>nicht</u> die Zeit, die Sie nur zum Streamen von Filmen oder Musik verwendet haben.)</b></item>
+        <item><b>Wie lang haben Sie <u>am Computer/an der Spielekonsole</u> seit der letzten Erinnerung gessesen und gespielt?</b></item>
+        <item><b>Wie lang haben sie <u>aktiv an einer Spielekonsole</u> seit der letzten Erinnerung gespielt(z.B. Wii, PlayStation Move)?</b></item>
+        <item><b>Wie lang haben sie seit der letzten Erinnnerung <u>am Computer</u> gemessen/gearbeitet? (Bitte berücksichtigen Sie nicht die Zeit, die sie nur zum Surfen oder Streamen von Filmen und Musik verwendet haben.)</b></item>
+        <item><b>Wie viel Zeit haben sie seit der letzten Erinnerung damit verbracht Kurznachrichten zu versenden?</b></item>
+        <item><b>Wie lang haben Sie seit der letzten Erinnerung <u>Musik</u> nur im Radio/mit dem Handy/über einen Streamingdienst gehört? (Bitte berücksichtigen Sie nicht die Zeit, während der Sie das Internet oder den Computer genutzt haben.</b></item>
     </string-array>
     <string-array name="survey6left">
         <item>müde</item>
@@ -429,9 +429,11 @@
     <string name="button_get_directions">Get directions</string>
     <string name="button_img">Image</string>
     <string name="button_map">Map</string>
+    <string name="button_minus">-</string>
     <string name="button_mms">Send MMS</string>
     <string name="button_ok">OK</string>
     <string name="button_open_browser">Open browser</string>
+    <string name="button_plus">+</string>
     <string name="button_product_search">Product search</string>
     <string name="button_save">Save</string>
     <string name="button_search_book_contents">Search contents</string>
@@ -619,7 +621,7 @@
     <string name="store_picture_title">Save image</string>
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="version">Version 3.4</string>
+    <string name="version">Version 2.1</string>
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>

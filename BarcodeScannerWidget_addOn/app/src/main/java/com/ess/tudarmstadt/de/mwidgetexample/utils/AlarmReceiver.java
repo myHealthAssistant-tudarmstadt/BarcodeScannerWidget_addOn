@@ -37,6 +37,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 break;
             case 5: hour = 18;
                 break;
+            case 6: hour = 20;
         }
         intentNew.putExtra("time", time);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, time, intentNew, PendingIntent.FLAG_UPDATE_CURRENT);

@@ -3,13 +3,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/scan_save_btn"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/button_save" />
+        android:text="@string/edit_text_name"
+        android:id="@+id/textView"
+        android:layout_above="@+id/name"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/name"
@@ -21,30 +21,46 @@
         android:gravity="center_horizontal"
         android:layout_above="@+id/text_amount" />
 
-    <EditText
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_amount"
-        android:layout_above="@+id/scan_save_btn"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_text_name"
-        android:id="@+id/textView"
-        android:layout_above="@+id/name"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/edit_text_amount"
         android:id="@+id/text_amount"
-        android:layout_above="@+id/edit_amount"
+        android:layout_above="@+id/plus_btn"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/plus_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/edit_amount"
+        android:layout_centerHorizontal="true"
+        android:text="@string/button_plus" />
+
+    <EditText
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_amount"
+        android:layout_above="@+id/minus_btn"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" />
+
+    <Button
+        android:id="@+id/minus_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/scan_save_btn"
+        android:layout_centerHorizontal="true"
+        android:text="@string/button_minus" />
+
+    <Button
+        android:id="@+id/scan_save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/button_save" />
 
 </RelativeLayout><!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/layout/fragment_amount.xml -->

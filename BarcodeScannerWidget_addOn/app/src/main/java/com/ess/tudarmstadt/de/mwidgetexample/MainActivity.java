@@ -367,8 +367,10 @@ public class MainActivity extends ActionBarActivity implements
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
 		String formattedDate = df.format(c.getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm");
+		String time = sdf.format(c.getTime());
 		for (int i = 0; i < values.length; i++) {
-			mydb.insertValue(formattedDate, survey, i + 1, values[i]);
+			mydb.insertValue(formattedDate, time, survey, i + 1, values[i]);
 		}
 		Intent intent = new Intent(this, com.ess.tudarmstadt.de.mwidgetexample.utils.AlarmReceiver.class);
 		intent.putExtra("time", survey - 1);
@@ -379,8 +381,20 @@ public class MainActivity extends ActionBarActivity implements
 		} catch (PendingIntent.CanceledException e) {
 			e.printStackTrace();
 		}
-		Toast.makeText(this, "survey saved", Toast.LENGTH_SHORT).show();
+
 		finish();
+
+		if (survey < 6) {
+			Intent openSurvey = new Intent(this, com.ess.tudarmstadt.de.mwidgetexample.MainActivity.class);
+			openSurvey.setAction("com.ess.tudarmstadt.de.mwidgetexample.openSurvey");
+			Bundle extras = new Bundle();
+			extras.putInt("time", survey);
+			extras.putString("usage", Constants.Survey_Intent);
+			openSurvey.putExtras(extras);
+			startActivity(openSurvey);
+		} else {
+			Toast.makeText(this, "survey saved", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
@@ -591,9 +605,9 @@ public class MainActivity extends ActionBarActivity implements
 	// Notification for survey
 	public void alarmForSurvey() {
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		Calendar[] calendars = new Calendar[6];
-		Intent[] intents = new Intent[6];
-		for (int i = 0; i < 6; i++) {
+		Calendar[] calendars = new Calendar[7];
+		Intent[] intents = new Intent[7];
+		for (int i = 0; i < 7; i++) {
 			calendars[i] = Calendar.getInstance();
 			calendars[i].setTimeInMillis(System.currentTimeMillis());
 			switch(i) {
@@ -608,6 +622,8 @@ public class MainActivity extends ActionBarActivity implements
 				case 4: calendars[i].set(Calendar.HOUR_OF_DAY, 16);
 					break;
 				case 5: calendars[i].set(Calendar.HOUR_OF_DAY, 18);
+					break;
+				case 6: calendars[i].set(Calendar.HOUR_OF_DAY, 20);
 					break;
 			}
 			intents[i] = new Intent(getApplicationContext(), com.ess.tudarmstadt.de.mwidgetexample.utils.AlarmReceiver.class);

@@ -32,8 +32,6 @@ public class SurveyListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Bundle extras = getArguments(); // getting data of entry from the p arent activity for display
-
         View rootView = inflater.inflate(
                 R.layout.fragment_survey_list, container, false);
 
@@ -47,9 +45,15 @@ public class SurveyListFragment extends Fragment {
                 mode++;
                 if (mode == 1) {
                     textView.setText(item);
-                    showSurveys(item);
+                    showTimes(item);
                 } else if (mode == 2) {
-                    showResults(String.valueOf(textView.getText()), item);
+                    String date = textView.getText().toString();
+                    textView.setText(date + "/" + item);
+                    showSurveys(date, item);
+                } else {
+                    String[] old = textView.getText().toString().split("/");
+                    textView.setText(old[0] + "/" + old[1] + "/" + item);
+                    showResults(old[0], old[1].split(" ")[0], item);
                 }
             }
         });
@@ -66,16 +70,23 @@ public class SurveyListFragment extends Fragment {
         listView.setAdapter(arrayAdapter);
     }
 
-    private void showSurveys(String item) {
+    private void showTimes(String date) {
+        ArrayList<String> time;
+        time = dbHelper.getAllTimes(date);
+        arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.custom_listview, time);
+        listView.setAdapter(arrayAdapter);
+    }
+
+    private void showSurveys(String date, String time) {
         ArrayList<String> surveys;
-        surveys = dbHelper.getAllSurveys(item);
+        surveys = dbHelper.getAllSurveys(date, time);
         arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.custom_listview, surveys);
         listView.setAdapter(arrayAdapter);
     }
 
-    private void showResults(String date, String item) {
+    private void showResults(String date, String time, String item) {
         ArrayList<String> questions;
-        questions = dbHelper.getAllResults(date, item);
+        questions = dbHelper.getAllResults(date,time, item);
         arrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.custom_listview, questions);
         listView.setAdapter(arrayAdapter);
     }

@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // Values
     public static final String SURVEY_COLUMN_DATE = "date";
     public static final String SURVEY_COLUMN_SURVEY = "survey";
+    public static final String SURVEY_COLUMN_TIME = "time";
     public static final String SURVEY_COLUMN_QUESTION = "question";
     public static final String SURVEY_COLUMN_VALUE = "value";
     public static final String BARCODE_BARCODE = "barcode";
@@ -36,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_SURVEY = "CREATE TABLE "
             + SURVEY_TABLE_NAME + "(" + SURVEY_COLUMN_ID + " INTEGER PRIMARY KEY," + SURVEY_COLUMN_DATE
-            + " TEXT," + SURVEY_COLUMN_SURVEY + " INTEGER," + SURVEY_COLUMN_QUESTION
+            + " TEXT," + SURVEY_COLUMN_TIME + " TEXT," + SURVEY_COLUMN_SURVEY + " INTEGER," + SURVEY_COLUMN_QUESTION
             + " INTEGER," + SURVEY_COLUMN_VALUE + " INTEGER" + ")";
 
     private static final String CREATE_TABLE_BARCODE = "CREATE TABLE "
@@ -69,11 +70,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean insertValue  (String date, int survey, int question, int value)
+    public boolean insertValue  (String date, String time, int survey, int question, int value)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("date", date);
+        contentValues.put("time", time);
         contentValues.put("survey", survey);
         contentValues.put("question", question);
         contentValues.put("value", value);
@@ -101,7 +103,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<String> array_list = new ArrayList<String>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from surveyDB", null );
+        Cursor res =  db.rawQuery("select * from surveyDB", null);
         res.moveToFirst();
 
         String temp;
@@ -115,7 +117,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }
 
-    public ArrayList<String> getAllSurveys(String item)
+    public ArrayList<String> getAllTimes(String item)
     {
         ArrayList<String> array_list = new ArrayList<String>();
 
@@ -125,16 +127,37 @@ public class DBHelper extends SQLiteOpenHelper {
 
         String temp;
         while(!res.isAfterLast()){
-            temp = res.getString(res.getColumnIndex(SURVEY_COLUMN_SURVEY));
-            if (res.getString(res.getColumnIndex(SURVEY_COLUMN_DATE)).equals(item) && (!array_list.contains("Umfrage " + temp))) {
-                array_list.add("Umfrage " + temp);
+            temp = res.getString(res.getColumnIndex(SURVEY_COLUMN_TIME));
+            if (res.getString(res.getColumnIndex(SURVEY_COLUMN_DATE)).equals(item) && (!array_list.contains(temp + " Uhr"))) {
+                array_list.add(temp + " Uhr");
             }
             res.moveToNext();
         }
         return array_list;
     }
 
-    public ArrayList<String> getAllResults(String date, String item)
+    public ArrayList<String> getAllSurveys(String date, String time)
+    {
+        ArrayList<String> array_list = new ArrayList<String>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from surveyDB", null );
+        res.moveToFirst();
+
+        String temp1;
+        while(!res.isAfterLast()){
+            temp1 = res.getString(res.getColumnIndex(SURVEY_COLUMN_SURVEY));
+            if (res.getString(res.getColumnIndex(SURVEY_COLUMN_DATE)).equals(date) &&
+                    res.getString(res.getColumnIndex(SURVEY_COLUMN_TIME)).equals(time.split(" ")[0])
+                    && !array_list.contains("Fragebogen " + temp1)) {
+                array_list.add("Fragebogen " + temp1);
+            }
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+    public ArrayList<String> getAllResults(String date, String time, String item)
     {
         ArrayList<String> array_list = new ArrayList<String>();
 
@@ -148,6 +171,7 @@ public class DBHelper extends SQLiteOpenHelper {
             temp1 = res.getString(res.getColumnIndex(SURVEY_COLUMN_QUESTION));
             temp2 = res.getString(res.getColumnIndex(SURVEY_COLUMN_VALUE));
             if (res.getString(res.getColumnIndex(SURVEY_COLUMN_DATE)).equals(date) &&
+                    res.getString(res.getColumnIndex(SURVEY_COLUMN_TIME)).equals(time) &&
                     res.getString(res.getColumnIndex(SURVEY_COLUMN_SURVEY)).equals(item.split(" ")[1])) {
                 if (item.split(" ")[1].equals("5")) {
                     int temp3 = Integer.valueOf(temp2) * 10;
