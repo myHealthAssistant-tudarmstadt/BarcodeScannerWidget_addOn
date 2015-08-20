@@ -11,14 +11,14 @@
         android:layout_centerHorizontal="true"
         android:orientation="horizontal" >
 
-        <Button
+        <Button style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/scan_del_btn"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
             android:text="@string/button_del" />
 
-        <Button
+        <Button style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/scan_save_btn"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
@@ -31,9 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom_btn_lyot"
-        android:singleLine="false"
-        android:text="This&apos;s the content of scanned code"
-        android:textAlignment="center" />
+        android:singleLine="false" />
 
     <EditText
         android:id="@+id/et_un"
@@ -42,8 +40,7 @@
         android:layout_above="@+id/edit_amount_tile"
         android:layout_centerHorizontal="true"
         android:paddingTop="10dp"
-        android:singleLine="true"
-        android:text="Give The Title" />
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/seek_progress"

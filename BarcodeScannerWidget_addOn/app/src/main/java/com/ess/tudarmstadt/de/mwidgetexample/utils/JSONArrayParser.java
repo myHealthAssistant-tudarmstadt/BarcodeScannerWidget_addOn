@@ -15,6 +15,21 @@ public class JSONArrayParser implements Parcelable {
 		// Empty constructor
 	}
 
+	private JSONArrayParser(Parcel in) {
+	}
+
+	public static final Creator<JSONArrayParser> CREATOR = new Creator<JSONArrayParser>() {
+		@Override
+		public JSONArrayParser createFromParcel(Parcel in) {
+			return new JSONArrayParser(in);
+		}
+
+		@Override
+		public JSONArrayParser[] newArray(int size) {
+			return new JSONArrayParser[size];
+		}
+	};
+
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub

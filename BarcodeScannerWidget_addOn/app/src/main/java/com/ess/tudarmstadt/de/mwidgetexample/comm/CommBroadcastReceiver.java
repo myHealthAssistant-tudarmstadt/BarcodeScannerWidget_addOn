@@ -26,8 +26,8 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 	private static final String TAG = CommBroadcastReceiver.class
 			.getSimpleName();
 	private int evtCounter = 0;
-	private Context context;
-	private JSONResult jResult;
+	private final Context context;
+	private final JSONResult jResult;
 
 	public CommBroadcastReceiver(Context context, JSONResult r) {
 		this.context = context;
@@ -74,6 +74,7 @@ public class CommBroadcastReceiver extends BroadcastReceiver {
 		controlEntry(JSONDataExchange.JSON_STORE, -1, date, time, title,
 				contents, location, longitude, latitude);
 	}
+
 
 	/**
 	 * Edit scanned entry in database by sending encoded JSONObject to

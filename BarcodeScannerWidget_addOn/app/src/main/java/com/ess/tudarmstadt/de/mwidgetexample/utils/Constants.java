@@ -10,6 +10,7 @@ import android.os.Environment;
 
 public class Constants {
 
+	// Object.
 	public static final String JSON_OBJECT_ID = "_ID";
 	public static final String JSON_OBJECT_TITLE = "OB_TITLE";
 	public static final String JSON_OBJECT_DATE = "OB_DATE";
@@ -24,29 +25,36 @@ public class Constants {
 	public static final String JSON_REQUEST_EDIT = "_edit";
 	public static final String JSON_REQUEST_DELETE = "_dele";
 
+	// Survey.
+	public static final String JSON_OBJECT_SURVEY_DATE = "OB_SURVEY_DATE";
+	public static final String JSON_OBJECT_SURVEY_TIME = "OB_SURVEY_TIME";
+	public static final String JSON_OBJECT_SURVEY_SURVEY = "OB_SURVEY_SURVEY";
+	public static final String JSON_OBJECT_SURVEY_RESULT = "OB_SURVEY_RESULT";
+	public static final String JSON_OBJECT_SURVEY = "IS_SURVEY";
 
-	public static final String JSON_OBJECT_SURVEY = "OB_SURVEY";
+	// Barcode.
+	public static final String JSON_OBJECT_BARCODE_BARCODE = "OB_BARCODE_BARCODE";
+	public static final String JSON_OBJECT_BARCODE_NAME = "OB_BARCODE_NAME";
+	public static final String JSON_OBJECT_BARCODE = "IS_BARCODE";
 
 
 	public static final String Survey_Intent = "OPEN_NEW_SURVEY";
 
 	public static void logDebug(String tag, String text){
-		String str = getCurrentDate("dd-MM-yyyy kk:mm ") + tag + ":\n" + text + "\n";
-		writeStringToLogFile("BarcodeScannerWidget.log.txt", str);
+		String str = getCurrentDate() + tag + ":\n" + text + "\n";
+		writeStringToLogFile(str);
 	}
 	
 
-	public static String getCurrentDate(String format) {
-		SimpleDateFormat sdfDate = new SimpleDateFormat(format);
+	private static String getCurrentDate() {
+		SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy kk:mm ", java.util.Locale.getDefault());
 		Date now = new Date();
-		String strDate = sdfDate.format(now);
-		return strDate;
+		return sdfDate.format(now);
 	}
 
-	public static void writeStringToLogFile(String outFileName,
-			String text) {
+	private static void writeStringToLogFile(String text) {
 		File exportDir = new File(Environment.getExternalStorageDirectory() + "/BarcodeScannerWidget/data/", "");
-		File file = new File(exportDir, outFileName);
+		File file = new File(exportDir, "BarcodeScannerWidget.log.txt");
 		
 		if (!exportDir.exists()) {
 			exportDir.mkdirs();

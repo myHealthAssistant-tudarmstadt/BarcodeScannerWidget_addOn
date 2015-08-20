@@ -3,11 +3,20 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/textView"
+        android:visibility="gone" />
+
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/edit_text_name"
-        android:id="@+id/textView"
         android:layout_above="@+id/name"
         android:layout_centerHorizontal="true" />
 

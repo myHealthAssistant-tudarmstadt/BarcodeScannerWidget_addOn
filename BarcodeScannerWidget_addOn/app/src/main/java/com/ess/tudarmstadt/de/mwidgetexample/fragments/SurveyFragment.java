@@ -1,8 +1,6 @@
 package com.ess.tudarmstadt.de.mwidgetexample.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,9 +15,10 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ess.tudarmstadt.de.mwidgetexample.JSON.*;
 import com.ess.tudarmstadt.de.mwidgetexample.R;
-import com.ess.tudarmstadt.de.mwidgetexample.utils.Constants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -42,6 +41,7 @@ public class SurveyFragment extends Fragment {
     private String[] question6Left;
     private String[] question6Right;
     private int[] answer;
+    private NumberPicker minutePicker;
 
     private HandleCallbackListener mCallback;
 
@@ -60,7 +60,7 @@ public class SurveyFragment extends Fragment {
     }
 
     public interface HandleCallbackListener {
-        void onSurveyCallbackListener(int survey, int[] values);
+        void onSurveyCallbackListener(JSONObject jsonObject);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class SurveyFragment extends Fragment {
         RadioButton radioButton6 = (RadioButton) rootView.findViewById(R.id.radioButton6);
         RadioButton radioButton7 = (RadioButton) rootView.findViewById(R.id.radioButton7);
 
-        final NumberPicker minutePicker = (NumberPicker) rootView.findViewById(R.id.minutePicker);
+        minutePicker = (NumberPicker) rootView.findViewById(R.id.minutePicker);
         minutePicker.setVisibility(View.GONE);
         Button next = (Button) rootView.findViewById(R.id.nextQuestionButton);
         next.setVisibility(View.GONE);
@@ -159,12 +159,12 @@ public class SurveyFragment extends Fragment {
         decicion.setOnCheckedChangeListener(listener);
         switch (surveyNumber) {
             case 0:
-                radioButton1.setText("1 (Völlig unzutreffend)");
-                radioButton7.setText("7 (Völlig zutreffend)");
+                radioButton1.setText("1 (völlig unzutreffend)");
+                radioButton7.setText("7 (trifft ganz genau zu)");
                 break;
             case 1:
-                radioButton1.setText("1 (Stimme gar nicht zu)");
-                radioButton5.setText("5 (Stimme stark zu)");
+                radioButton1.setText("1 (stimme gar nicht zu)");
+                radioButton5.setText("5 (stimme stark zu)");
                 radioButton6.setVisibility(View.INVISIBLE);
                 radioButton7.setVisibility(View.INVISIBLE);
                 break;
@@ -175,8 +175,8 @@ public class SurveyFragment extends Fragment {
                 radioButton7.setVisibility(View.INVISIBLE);
                 break;
             case 3:
-                radioButton1.setText("1 (nein)");
-                radioButton2.setText("2 (ja)");
+                radioButton1.setText("0 (nein)");
+                radioButton2.setText("1 (ja)");
                 radioButton3.setVisibility(View.INVISIBLE);
                 radioButton4.setVisibility(View.INVISIBLE);
                 radioButton5.setVisibility(View.INVISIBLE);
@@ -189,10 +189,7 @@ public class SurveyFragment extends Fragment {
                 minutePicker.setEnabled(true);
                 String[] values=new String[20];
                 for(int i=0; i<values.length; i++) {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(Integer.toString(i*10));
-                    sb.append("min");
-                    values[i] = sb.toString();
+                    values[i] = Integer.toString(i * 10) + "min";
                 }
                 minutePicker.setMaxValue(values.length - 1);
                 minutePicker.setMinValue(0);
@@ -277,6 +274,7 @@ public class SurveyFragment extends Fragment {
                 }
                 if ((0 < questionNumber) && (questionNumber < question5.length + 1)) {
                     answer[questionNumber -1] = currentValue;
+                    minutePicker.setValue(0);
                 }
                 if (questionNumber > answer.length -1) {
                     saveAndDissmiss();
@@ -308,6 +306,13 @@ public class SurveyFragment extends Fragment {
     }
 
     private void saveAndDissmiss() {
-        mCallback.onSurveyCallbackListener(surveyNumber + 1,answer);
+        SurveyItem surveyItem = new SurveyItem(surveyNumber + 1, answer);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject = SurveyItemToJSON.getJSONfromSurvey(surveyItem);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mCallback.onSurveyCallbackListener(jsonObject);
     }
 }

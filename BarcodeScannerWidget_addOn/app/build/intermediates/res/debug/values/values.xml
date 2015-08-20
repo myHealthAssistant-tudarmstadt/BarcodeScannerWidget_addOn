@@ -49,47 +49,61 @@
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string-array name="survey1">
+        <item>Ich brauche etwas Angenehmes, um mich besser zu fühlen.</item>
+        <item>Ich fühle mich erledigt.</item>
         <item>Wenn ich im Augenblick durch etwas in Versuchung geführt würde, würde es mir sehr schwer fallen, zu widerstehen.</item>
-        <item>Ich kann keine Informationen mehr aufnehmen.</item>
+        <item>Ich würde jede schwierige Aufgabe, die mir gestellt würde, aufgeben wollen.</item>
+        <item>Ich fühle mich ausgeglichen.</item>
+        <item>Ich kann keine Information mehr aufnehmen.</item>
+        <item>Ich fühle mich antriebslos.</item>
+        <item>Ich fühle mich wach und konzentriert.</item>
+        <item>Ich möchte aufgeben.</item>
         <item>Ich fühle mich, als hätte ich keine Willenskraft mehr.</item>
-        <item>Mein geistiger Akku ist leer.</item>
-        <item>Ich fühle mich wach und konzentriert."</item>
     </string-array>
     <string-array name="survey2">
-        <item>Ich habe ein starkes Bedürfnis dazuzugehören.</item>
+        <item>Seit der letzten Beantwortung: Ich hatte ein starkes Bedürfnis dazuzugehören.</item>
+        <item>Zum jetzigen Zeitpunkt habe ich ein starkes Bedürfnis, dazuzugehören.</item>
     </string-array>
     <string-array name="survey3">
-        <item>Ich identifiziere/fühle mich verbunden mit meinen Kommilitonen.</item>
+        <item>Zum jetzigen Zeitpunkt identifiziere ich mich/fühle ich mich verbunden mit meinen Kommilitonen/Freunden/Familie.</item>
+        <item>Seit der letzten Beantwortung: Ich habe mich mit meinen Kommilitonen/Freunden/Familie identifiziert/verbunden gefühlt.</item>
     </string-array>
     <string-array name="survey4">
-        <item>Waren andere Personen anwesend?</item>
-        <item>Haben körperlich anwesende Personen Softdrinks getrunken?</item>
-        <item>Haben Personen, die in einem anderen Medium (z. B. TV, Radio, Internet) anwesend waren, Softdrinks getrunken?"</item>
+        <item>Sind andere Personen anwesend?</item>
+        <item>Seit der letzten Beantwortung: Waren andere Personen anwesend?</item>
+        <item>Trinken andere körperlich anwesende Personen Softdrinks?</item>
+        <item>Seit der letzten Beantwortung: Haben körperlich anwesende Personen Softdrinks getrunken?</item>
+        <item>Trinken Personen, die in einem anderen Medium (z.B. TV, Radio, Internet) anwesend waren, Softdrinks?</item>
+        <item>Seit der letzten Beantwortung: Haben Personen, die in einem anderen Medium (z.B. TV, Radio, Internet) anwesend waren, Softdrinks getrunken?</item>
+
     </string-array>
     <string-array name="survey5">
-        <item><b>Wie lang haben Sie seit der letzten Erinnerung <u>TV und/oder Video/DVD/Blueray oder Videostreamingdienste(z.B. Netflix)</u> geschaut?</b></item>
-        <item><b>Wie lang haben Sie <u>das Internet</u> seit der letzten Erinnerung genutzt? (Bitte berücksichtigen sie <u>nicht</u> die Zeit, die Sie nur zum Streamen von Filmen oder Musik verwendet haben.)</b></item>
-        <item><b>Wie lang haben Sie <u>am Computer/an der Spielekonsole</u> seit der letzten Erinnerung gessesen und gespielt?</b></item>
-        <item><b>Wie lang haben sie <u>aktiv an einer Spielekonsole</u> seit der letzten Erinnerung gespielt(z.B. Wii, PlayStation Move)?</b></item>
-        <item><b>Wie lang haben sie seit der letzten Erinnnerung <u>am Computer</u> gemessen/gearbeitet? (Bitte berücksichtigen Sie nicht die Zeit, die sie nur zum Surfen oder Streamen von Filmen und Musik verwendet haben.)</b></item>
-        <item><b>Wie viel Zeit haben sie seit der letzten Erinnerung damit verbracht Kurznachrichten zu versenden?</b></item>
-        <item><b>Wie lang haben Sie seit der letzten Erinnerung <u>Musik</u> nur im Radio/mit dem Handy/über einen Streamingdienst gehört? (Bitte berücksichtigen Sie nicht die Zeit, während der Sie das Internet oder den Computer genutzt haben.</b></item>
+        <item>Seit der letzten Beantwortung: Wie lang haben Sie TV und/oder Video/DVD/Blu-ray oder Videostreamingdienste (z.B. Netflix) geschaut?</item>
+        <item>Seit der letzten Beantwortung: Wie lang haben Sie das Internet?
+            (Bitte berücksichtigen sie nicht die Zeit, die Sie nur zum Streamen von Filmen oder Musik verwendet haben.) </item>
+        <item>Seit der letzten Beantwortung: Wie lang haben Sie am Computer/an der Spielekonsole gesessen und gespielt?</item>
+        <item>Seit der letzten Beantwortung: Wie lang haben Sie aktiv an einer Spielekonsole gespielt (z.B. Wii, PlayStation Move)? </item>
+        <item>Seit der letzten Beantwortung: Wie lang haben Sie am Computer gesessen/gearbeitet? 
+            (Bitte berücksichtigen Sie nicht die Zeit, die Sie nur zum Surfen oder Streamen von Filmen oder Musik verwendet haben.)</item>
+        <item>Seit der letzten Beantwortung: Wie viel Zeit haben Sie damit verbracht, nur Kurznachrichten zu versenden?</item>
+        <item>Seit der letzten Beantwortung: Wie lang haben Sie Musik nur im Radio/mit dem Handy/über einen Streamingdienst gehört? 
+            (Bitte berücksichtigen Sie nicht die Zeit, während der Sie das Internet oder den Computer genutzt haben.) </item>
     </string-array>
     <string-array name="survey6left">
         <item>müde</item>
         <item>zufrieden</item>
-        <item>ruhig</item>
-        <item>energielos</item>
-        <item>wohl</item>
-        <item>angespannt</item>
-    </string-array>
-    <string-array name="survey6right">
-        <item>wach</item>
-        <item>unzufrieden</item>
         <item>unruhig</item>
         <item>energiegeladen</item>
         <item>unwohl</item>
         <item>entspannt</item>
+    </string-array>
+    <string-array name="survey6right">
+        <item>wach</item>
+        <item>unzufrieden</item>
+        <item>ruhig</item>
+        <item>energielos</item>
+        <item>wohl</item>
+        <item>angespannt</item>
     </string-array>
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
@@ -502,8 +516,8 @@
     application to stop. Please help us fix this by sending us error data through email</string>
     <string name="crash_dialog_title">BarCodeScannerWidget has crashed</string>
     <string name="crash_notif_text">Please click here to help fix the issue.</string>
-    <string name="crash_notif_ticker_text">Unexpected error, please send a report...</string>
-    <string name="crash_notif_title">BarCodeScannerWidget has crashed...</string>
+    <string name="crash_notif_ticker_text">Unexpected error, please send a report</string>
+    <string name="crash_notif_title">BarCodeScannerWidget has crashed</string>
     <string name="crash_toast_text">Ooooops ! I crashed!</string>
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
     <eat-comment/>
@@ -514,6 +528,8 @@
     <eat-comment/>
     <string name="edit_text_amount">amount in ml:</string>
     <string name="edit_text_name">name:</string>
+    <string name="five">5</string>
+    <string name="four">4</string>
     <string name="hello_world">Hello world!</string>
     <string name="history_clear_one_history_text">Clear</string>
     <string name="history_clear_text">Clear history</string>
@@ -566,6 +582,8 @@
     <string name="msg_share_text">Or type some text and press Enter</string>
     <string name="msg_sure">Are you sure?</string>
     <string name="msg_unmount_usb">Sorry, the SD card is not accessible.</string>
+    <string name="next">next</string>
+    <string name="one">1</string>
     <string name="preferences_actions_title">When a barcode is found\u2026</string>
     <string name="preferences_auto_focus_title">Use auto focus</string>
     <string name="preferences_bulk_mode_summary">Scan and save many barcodes continuously</string>
@@ -612,6 +630,8 @@
     <string name="result_uri">Found URL</string>
     <string name="result_wifi">Found WLAN Configuration</string>
     <string name="sbc_name">Google Book Search</string>
+    <string name="seven">7</string>
+    <string name="six">6</string>
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <string name="status_bar_notification_info_overflow">999+</string>
@@ -621,7 +641,9 @@
     <string name="store_picture_title">Save image</string>
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="version">Version 2.1</string>
+    <string name="three">3</string>
+    <string name="two">2</string>
+    <string name="version">Version 2.3</string>
     <!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>

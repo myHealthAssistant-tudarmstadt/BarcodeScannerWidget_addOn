@@ -24,14 +24,14 @@ import android.os.Looper;
  * 
  */
 public class MyLocation{
-	private Timer timer1 = new Timer();
+	private final Timer timer1 = new Timer();
 	private LocationManager lm;
 	private LocationResult locationResult;
 	private boolean gps_enabled = false;
 	private boolean network_enabled = false;
 	
 
-	public boolean getLocation(Context context, LocationResult result) {
+	public void getLocation(Context context, LocationResult result) {
 		// I use LocationResult callback class to pass location value from
 		// MyLocation to user code.
 		locationResult = result;
@@ -53,7 +53,7 @@ public class MyLocation{
 
 		// don't start listeners if no provider is enabled
 		if (!gps_enabled && !network_enabled)
-			return false;
+			return;
 
 		if (gps_enabled)
 			lm.requestSingleUpdate(LocationManager.GPS_PROVIDER,
@@ -67,7 +67,6 @@ public class MyLocation{
 		// 0, locationListenerNetwork);
 		int timeout = 70000;
 		timer1.schedule(new GetLastLocation(), timeout);
-		return true;
 	}
 
 	public void stopMe(){
@@ -78,7 +77,7 @@ public class MyLocation{
 		
 	}
 	
-	LocationListener locationListenerGps = new LocationListener() {
+	private final LocationListener locationListenerGps = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			timer1.cancel();
 			locationResult.gotLocation(location);
@@ -97,7 +96,7 @@ public class MyLocation{
 		}
 	};
 
-	LocationListener locationListenerNetwork = new LocationListener() {
+	private final LocationListener locationListenerNetwork = new LocationListener() {
 		
 		public void onLocationChanged(Location location) {
 			timer1.cancel();
@@ -123,7 +122,7 @@ public class MyLocation{
 		}
 	};
 
-	class GetLastLocation extends TimerTask {
+	private class GetLastLocation extends TimerTask {
 		@Override
 		public void run() {
 			lm.removeUpdates(locationListenerGps);

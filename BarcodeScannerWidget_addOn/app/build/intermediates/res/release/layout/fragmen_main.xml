@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dip" >
+    android:layout_margin="8dip">
 
     <TextView
         android:id="@+id/welcome"
@@ -22,8 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dip"
         android:gravity="center_horizontal"
-        android:text="@string/button_capture_bc"
-        android:textAlignment="center" />
+        android:text="@string/button_capture_bc" />
 
     <Button
         android:id="@+id/main_cap_photo"
@@ -33,30 +31,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dip"
         android:gravity="center_horizontal"
-        android:text="@string/button_capture_img"
-        android:textAlignment="center" />
-
-    <Button
-        android:id="@+id/main_show_album"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_cap_photo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dip"
-        android:gravity="center_horizontal"
-        android:text="@string/button_show_list"
-        android:textAlignment="center" />
-
-    <Button
-        android:id="@+id/main_show_survey"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_show_album"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dip"
-        android:gravity="center_horizontal"
-        android:text="@string/button_show_survey"
-        android:textAlignment="center" />
+        android:text="@string/button_capture_img" />
 
     <RelativeLayout
         android:id="@+id/main_logo_bottom"

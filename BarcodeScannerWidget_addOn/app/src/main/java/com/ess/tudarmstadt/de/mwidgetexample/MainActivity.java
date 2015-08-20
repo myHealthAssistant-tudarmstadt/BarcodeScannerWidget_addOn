@@ -1,40 +1,27 @@
 package com.ess.tudarmstadt.de.mwidgetexample;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.ess.tudarmstadt.de.mwidgetexample.JSON.Barcode;
+import com.ess.tudarmstadt.de.mwidgetexample.JSON.BarcodeToJSON;
 import com.ess.tudarmstadt.de.mwidgetexample.comm.CommBroadcastReceiver;
 import com.ess.tudarmstadt.de.mwidgetexample.comm.CommBroadcastReceiver.JSONResult;
 import com.ess.tudarmstadt.de.mwidgetexample.fragments.AmountFragment;
@@ -44,10 +31,18 @@ import com.ess.tudarmstadt.de.mwidgetexample.fragments.SurveyFragment;
 import com.ess.tudarmstadt.de.mwidgetexample.fragments.SurveyListFragment;
 import com.ess.tudarmstadt.de.mwidgetexample.fragments.TitleEditorFragment;
 import com.ess.tudarmstadt.de.mwidgetexample.utils.Constants;
-import com.ess.tudarmstadt.de.mwidgetexample.utils.DBHelper;
 import com.ess.tudarmstadt.de.mwidgetexample.utils.JSONArrayParser;
 import com.google.zxing.client.android.CaptureActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 import de.tudarmstadt.dvs.myhealthassistant.myhealthhub.events.AbstractChannel;
 
@@ -57,7 +52,7 @@ import de.tudarmstadt.dvs.myhealthassistant.myhealthhub.events.AbstractChannel;
  *
  */
 
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends AppCompatActivity implements
 		MainFragment.OnButtonClickListener,
 		TitleEditorFragment.HandleCallbackListener,
         AmountFragment.HandleCallbackListener,
@@ -70,15 +65,18 @@ public class MainActivity extends ActionBarActivity implements
 	private static final int ScanReqCode = 9000;
 	private static final int CameraPhotoReqCode = 7000;
 
-	private CommBroadcastReceiver commUnit;
+	public boolean isRegistered = false;
+	public CommBroadcastReceiver commUnit;
+	public static HashMap<String, String> barcodes = new HashMap<>();
 	private String photo_OutputFileUri = "";
 
-	public static final String setAlarmsString = "com.ess.tudarmstadt.utils.prefs.alarms";
+	private static final String setAlarmsString = "com.ess.tudarmstadt.utils.prefs.alarms";
 	private static final String setVersionString = "com.ess.tudarmstadt.utils.version";
 
-	SharedPreferences prefs;
+	// false when albumListFragment, true when SurveyFragment.
+	private int mode = 0;
 
-	public static DBHelper mydb;
+	private SharedPreferences prefs;
 
 	/** setting up the connection with myHealthHub */
 	private void connectToMhh() {
@@ -113,13 +111,13 @@ public class MainActivity extends ActionBarActivity implements
 
 	// for connecting to the remote service of myHealthHub
 	private Intent myHealthHubIntent;
-	boolean isConnectedToMhh;
+	private boolean isConnectedToMhh;
 	/**
 	 * Service connection to myHealthHub remote service. This connection is
 	 * needed in order to start myHealthHub. Furthermore, it is used inform the
 	 * application about the connection status.
 	 */
-	private ServiceConnection myHealthAssistantRemoteConnection = new ServiceConnection() {
+	private final ServiceConnection myHealthAssistantRemoteConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			Toast.makeText(getApplicationContext(),
@@ -141,61 +139,105 @@ public class MainActivity extends ActionBarActivity implements
 		}
 	};
 
-	private JSONResult jResult = new JSONResult() {
+	private final JSONResult jResult = new JSONResult() {
 		@Override
 		public void gotResult(JSONArray jObjArray) {
-			// Make a list of object entries from JSONArray
-			ArrayList<JSONObject> mListObj = new ArrayList<>();
-			boolean addToList;
-			
-			JSONArray jObjToDel = new JSONArray(); // list of duplicates to be removed
-			for (int i = 0; i < jObjArray.length(); i++) {
-				JSONObject jObj = jObjArray.optJSONObject(i);
-				if (jObj != null){
-					addToList = true;
-					String objDate = jObj.optString(Constants.JSON_OBJECT_DATE);
-					String objTime = jObj.optString(Constants.JSON_OBJECT_TIME);
-					
-					for (JSONObject jCompare : mListObj){
-						String dateCompare = jCompare.optString(Constants.JSON_OBJECT_DATE);
-						String timeCompare = jCompare.optString(Constants.JSON_OBJECT_TIME);
-						
-						if (objDate.equals(dateCompare) && objTime.equals(timeCompare)){
-							addToList = false;
-							// all entries with same date and time will be put here to delete
-							jObjToDel.put(jObj);
-							break;
+			if (mode != 2) {
+				ArrayList<JSONObject> mListObj = new ArrayList<>();
+				boolean addToList;
+				JSONArray jObjToDel = new JSONArray(); // list of duplicates to be removed
+
+				if (mode == 0) {
+					// Make a list of object entries from JSONArray
+					for (int i = 0; i < jObjArray.length(); i++) {
+						JSONObject jObj = jObjArray.optJSONObject(i);
+						if (jObj != null) {
+							addToList = true;
+							String objDate = jObj.optString(Constants.JSON_OBJECT_DATE);
+							String objTime = jObj.optString(Constants.JSON_OBJECT_TIME);
+
+							for (JSONObject jCompare : mListObj) {
+								String dateCompare = jCompare.optString(Constants.JSON_OBJECT_DATE);
+								String timeCompare = jCompare.optString(Constants.JSON_OBJECT_TIME);
+
+								if (objDate.equals(dateCompare) && objTime.equals(timeCompare)) {
+									addToList = false;
+									// all entries with same date and time will be put here to delete
+									jObjToDel.put(jObj);
+									break;
+								}
+							}
+							if (jObj.optInt(Constants.JSON_OBJECT_SURVEY) == 1) {
+								addToList = false;
+							}
+							if (addToList)
+								mListObj.add(jObj);
 						}
 					}
-					if (addToList)
-						mListObj.add(jObj);
+					if (jObjToDel.length() > 0) {
+						Constants.logDebug(TAG, "Duplicated Entries found:" + jObjToDel.length());
+						// send request delete duplicates to myHealthHub
+						commUnit.massDelEntries(jObjToDel);
+					}
+				} else if (mode == 1) {
+					for (int i = 0; i < jObjArray.length(); i++) {
+						JSONObject jObj = jObjArray.optJSONObject(i);
+						if (jObj != null) {
+							addToList = true;
+							String survey = jObj.optString(Constants.JSON_OBJECT_SURVEY_SURVEY);
+							String objDate = jObj.optString(Constants.JSON_OBJECT_SURVEY_DATE);
+							String objTime = jObj.optString(Constants.JSON_OBJECT_SURVEY_TIME);
+
+							for (JSONObject jCompare : mListObj) {
+								String surveyCompare = jCompare.optString(Constants.JSON_OBJECT_SURVEY_SURVEY);
+								String dateCompare = jCompare.optString(Constants.JSON_OBJECT_SURVEY_DATE);
+								String timeCompare = jCompare.optString(Constants.JSON_OBJECT_SURVEY_TIME);
+
+								if (objDate.equals(dateCompare) && objTime.equals(timeCompare) && survey.equals(surveyCompare)) {
+									addToList = false;
+									// all entries with same date and time will be put here to delete
+									jObjToDel.put(jObj);
+									break;
+								}
+							}
+							if (jObj.optInt(Constants.JSON_OBJECT_SURVEY) != 1)
+								addToList = false;
+							if (addToList)
+								mListObj.add(jObj);
+						}
+					}
+				}
+				if (progressDialog != null)
+					progressDialog.dismiss();
+
+				// Start show list by create a new ListFragment
+				Bundle args = new Bundle();
+				JSONArrayParser jParser = new JSONArrayParser();
+				jParser.setJsonArrayList(mListObj);
+				args.putParcelable(PhotoAlbumListFragment.JSON_PARSER, jParser);
+				args.putInt("mode", mode);
+
+				PhotoAlbumListFragment fragment = new PhotoAlbumListFragment();
+				fragment.setArguments(args);
+
+				getSupportFragmentManager().popBackStack();
+				FragmentTransaction transaction = getSupportFragmentManager()
+						.beginTransaction();
+				transaction.replace(R.id.container, fragment);
+				transaction.addToBackStack(null);
+				transaction.commit();
+			} else {
+				for (int i = 0; i < jObjArray.length(); i++) {
+					JSONObject jObj = jObjArray.optJSONObject(i);
+					int id = jObj.optInt(Constants.JSON_OBJECT_BARCODE);
+					if (id == 1) {
+						String barcode = jObj.optString(Constants.JSON_OBJECT_BARCODE_BARCODE);
+						String name = jObj.optString(Constants.JSON_OBJECT_BARCODE_NAME);
+						barcodes.put(barcode, name);
+					}
 				}
 			}
-			if (jObjToDel.length() > 0) {
-				Constants.logDebug(TAG, "Duplicated Entries found:" + jObjToDel.length());
-				// send request delete duplicates to myHealthHub
-				commUnit.massDelEntries(jObjToDel);
-			}
 
-			if (progressDialog != null)
-				progressDialog.dismiss();
-
-			// Start show list by create a new ListFragment
-			Bundle args = new Bundle();
-			JSONArrayParser jParser = new JSONArrayParser();
-			jParser.setJsonArrayList(mListObj);
-			args.putParcelable(PhotoAlbumListFragment.JSON_PARSER, jParser);
-
-			PhotoAlbumListFragment fragment = new PhotoAlbumListFragment();
-			fragment.setArguments(args);
-
-			getSupportFragmentManager().popBackStack();
-			FragmentTransaction transaction = getSupportFragmentManager()
-					.beginTransaction();
-			// transaction.remove(arg0)
-			transaction.replace(R.id.container, fragment);
-			transaction.addToBackStack(null);
-			transaction.commit();
 		}
 	};
 
@@ -234,7 +276,8 @@ public class MainActivity extends ActionBarActivity implements
 		commUnit = new CommBroadcastReceiver(this.getApplicationContext(),
 				jResult);
 		this.getApplicationContext().registerReceiver(commUnit,
-                new IntentFilter(AbstractChannel.MANAGEMENT));
+				new IntentFilter(AbstractChannel.MANAGEMENT));
+		isRegistered = true;
 		Bundle extras;
 		extras = getIntent().getExtras();
 		if (extras != null) {
@@ -262,23 +305,17 @@ public class MainActivity extends ActionBarActivity implements
 			transaction.add(R.id.container, fragment);
 			transaction.commitAllowingStateLoss();
 		}
-		mydb = new DBHelper(this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		Log.e(TAG, "onDestroy");
 		disconnectMHH();
-		this.getApplicationContext().unregisterReceiver(commUnit);
-
+		if (isRegistered) {
+			this.getApplicationContext().unregisterReceiver(commUnit);
+			isRegistered = false;
+		}
 		super.onDestroy();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 
 	@Override
@@ -286,6 +323,8 @@ public class MainActivity extends ActionBarActivity implements
 		// Handle button click from MainFragment
 		Log.e(TAG, "buttonClicking: " + token);
 		if (token == MainFragment.BARCODE_CAPTURE_TOKEN) {
+			mode = 2;
+			commUnit.getJSONEntryList();
 			Intent intent = new Intent(this.getApplicationContext(),
 					CaptureActivity.class);
 			intent.setAction("com.google.zxing.client.android.SCAN");
@@ -315,20 +354,13 @@ public class MainActivity extends ActionBarActivity implements
 				Constants.logDebug(TAG, e.toString());
 			}
 		} else if (token == MainFragment.SHOW_ALBUM_TOKEN) {
+			mode = 0;
 			if (commUnit != null) {
-				if (progressDialog != null)
-					progressDialog.show();
 				commUnit.getJSONEntryList();
 			}
 		} else if (token == MainFragment.SHOW_SURVEY_TOKEN) {
-			SurveyListFragment surveyListFragment = new SurveyListFragment();
-
-			FragmentTransaction transaction = getSupportFragmentManager()
-					.beginTransaction();
-			transaction.replace(R.id.container, surveyListFragment);
-			transaction.addToBackStack(null);
-			// transaction.commit();
-			transaction.commitAllowingStateLoss();
+			mode = 1;
+			commUnit.getJSONEntryList();
 		}
 	}
 
@@ -336,41 +368,32 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onAmountCallbackListener(final JSONObject key) {
         if (commUnit != null) {
-            if (progressDialog != null)
-                progressDialog.show();
-
             commUnit.storeEntry(key);
-            updateAppWidget(key);
-			String barcode = "";
-			String title = "";
+			String barcode;
+			String title;
 			barcode = key.optString(Constants.JSON_OBJECT_CONTENT, "");
 			title = key.optString(Constants.JSON_OBJECT_TITLE, "");
-			if (!(barcode.equals("")) && !(title.equals(""))) {
-				mydb.insertBarcode(barcode, title);
+			Barcode barcodeItem = new Barcode(barcode, title);
+			JSONObject jsonObj = new JSONObject();
+			try {
+				jsonObj = BarcodeToJSON.getJSONfromBarcode(barcodeItem);
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-			Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					if (progressDialog != null)
-						progressDialog.dismiss();
-					getSupportFragmentManager().popBackStack();
-					finish();
-				}
-			}, 8000);
+			commUnit.storeEntry(jsonObj);
+			getSupportFragmentManager().popBackStack();
+			finish();
         }
     }
 
 	@Override
-	public void onSurveyCallbackListener (int survey, int[] values) {
-		Calendar c = Calendar.getInstance();
-		SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-		String formattedDate = df.format(c.getTime());
-		SimpleDateFormat sdf = new SimpleDateFormat("HH-mm");
-		String time = sdf.format(c.getTime());
-		for (int i = 0; i < values.length; i++) {
-			mydb.insertValue(formattedDate, time, survey, i + 1, values[i]);
+	public void onSurveyCallbackListener (final JSONObject jsonObject) {
+		commUnit.storeEntry(jsonObject);
+		int survey = 0;
+		try {
+			survey = jsonObject.getInt(Constants.JSON_OBJECT_SURVEY_SURVEY);
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 		Intent intent = new Intent(this, com.ess.tudarmstadt.de.mwidgetexample.utils.AlarmReceiver.class);
 		intent.putExtra("time", survey - 1);
@@ -381,7 +404,6 @@ public class MainActivity extends ActionBarActivity implements
 		} catch (PendingIntent.CanceledException e) {
 			e.printStackTrace();
 		}
-
 		finish();
 
 		if (survey < 6) {
@@ -394,6 +416,7 @@ public class MainActivity extends ActionBarActivity implements
 			startActivity(openSurvey);
 		} else {
 			Toast.makeText(this, "survey saved", Toast.LENGTH_SHORT).show();
+			//finish();
 		}
 	}
 
@@ -404,7 +427,6 @@ public class MainActivity extends ActionBarActivity implements
 		if (token == TitleEditorFragment._EDIT) {
 			if (commUnit != null) {
 				commUnit.editEntry(key);
-				updateAppWidget(key);
 			}
 			this.getSupportFragmentManager().popBackStack();
 
@@ -462,8 +484,6 @@ public class MainActivity extends ActionBarActivity implements
 			// result of photo capture
 			this.finishActivity(CameraPhotoReqCode);
 			if (!photo_OutputFileUri.isEmpty() && resultCode == RESULT_OK) {
-				String obj_date = getTimestamp("dd-MM-yyyy");
-				String obj_time = getTimestamp("kk:mm:ss");
 				addNewBarcodeItem(-1, "", "", -1, -1, photo_OutputFileUri, -1);
 			}
 		}
@@ -499,7 +519,35 @@ public class MainActivity extends ActionBarActivity implements
 				.beginTransaction();
 		transaction.replace(R.id.container, fragment);
 		transaction.addToBackStack(null);
-		// transaction.commit();
+		transaction.commitAllowingStateLoss();
+	}
+
+	@Override
+	public void onSurveyListItemClickListener(String time, String date, int survey, JSONArray results) {
+		showSurvey(time, date, survey, results);
+	}
+
+	private void showSurvey(String time, String date, int survey, JSONArray results) {
+		Bundle args = new Bundle();
+		args.putInt(Constants.JSON_OBJECT_SURVEY, 1);
+		args.putString(Constants.JSON_OBJECT_SURVEY_TIME, time);
+		args.putString(Constants.JSON_OBJECT_SURVEY_DATE, date);
+		args.putInt(Constants.JSON_OBJECT_SURVEY_SURVEY, survey);
+
+		int[] resultInt = new int[results.length()];
+		for (int i = 0; i < results.length(); i++) {
+			resultInt[i] = results.optInt(i);
+		}
+
+		args.putIntArray(Constants.JSON_OBJECT_SURVEY_RESULT, resultInt);
+
+		SurveyListFragment fragment = new SurveyListFragment();
+		fragment.setArguments(args);
+
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+		transaction.replace(R.id.container, fragment);
+		transaction.addToBackStack(null);
 		transaction.commitAllowingStateLoss();
 	}
 
@@ -524,60 +572,16 @@ public class MainActivity extends ActionBarActivity implements
 				.beginTransaction();
 		transaction.replace(R.id.container, fragment);
 		transaction.addToBackStack(null);
-		// transaction.commit();
 		transaction.commitAllowingStateLoss();
 	}
 
-	/**
-	 * Update this app's Widget at homescreen
-	 */
-	private void updateAppWidget(JSONObject key) {
-		String date = key.optString(Constants.JSON_OBJECT_DATE);
-		String obj_content = key.optString(Constants.JSON_OBJECT_CONTENT, "");
-		String obj_uri = key.optString(Constants.JSON_OBJECT_URI, "");
-		String contents = obj_content + obj_uri;
-		if (date != null) {
-			AppWidgetManager appWidgetManager = AppWidgetManager
-					.getInstance(this.getApplicationContext());
-
-			// Get all ids
-			ComponentName thisWidget = new ComponentName(
-					getApplicationContext(), MyWidgetProvider.class);
-			int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-			for (int widgetId : allWidgetIds) {
-
-				RemoteViews remoteViews = new RemoteViews(
-						getApplicationContext().getPackageName(),
-						R.layout.widget_layout);
-
-				// Set the text
-				String text = "";
-				if (contents.length() > 40)
-					text = contents.substring(0, 40) + "...\n" + date;
-				else
-					text = contents;
-				remoteViews.setTextViewText(R.id.scan_info, text);
-
-				// Create an Intent to launch PhotoLaunchActivity
-				Intent intent = new Intent(this.getApplicationContext(),
-						MainActivity.class);
-				PendingIntent pendingIntent = PendingIntent.getActivity(
-						this.getApplicationContext(), 0, intent, 0);
-				remoteViews.setOnClickPendingIntent(R.id.wgt_cam_cap_btn,
-						pendingIntent);
-
-				appWidgetManager.updateAppWidget(widgetId, remoteViews);
-			}
-		}
-	}
 
 	/**
 	 * Returns the current time
 	 * 
 	 * @param timeFormat
 	*            the format time you want to return; for example: "dd-MM-yyyy"
-			* @return
-			*/
+	 */
 	public static String getTimestamp(String timeFormat) {
 		return (String) android.text.format.DateFormat.format(timeFormat,
 				new java.util.Date());
@@ -588,7 +592,7 @@ public class MainActivity extends ActionBarActivity implements
 		shouldDisplayHomeUp();
 	}
 
-	public void shouldDisplayHomeUp() {
+	private void shouldDisplayHomeUp() {
 		// Enable Up button only if there are entries in the back stack
 		boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
 		getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
@@ -603,7 +607,7 @@ public class MainActivity extends ActionBarActivity implements
 	}
 
 	// Notification for survey
-	public void alarmForSurvey() {
+	private void alarmForSurvey() {
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Calendar[] calendars = new Calendar[7];
 		Intent[] intents = new Intent[7];

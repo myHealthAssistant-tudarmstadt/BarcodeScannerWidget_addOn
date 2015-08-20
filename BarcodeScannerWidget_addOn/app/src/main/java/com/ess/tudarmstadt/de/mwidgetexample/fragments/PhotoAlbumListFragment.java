@@ -2,6 +2,7 @@ package com.ess.tudarmstadt.de.mwidgetexample.fragments;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -30,11 +31,15 @@ public class PhotoAlbumListFragment extends ListFragment {
 
 	private mArrayAdapter mAdapter;
 
+	// false when albumListFragment, true when SurveyFragment.
+	private int mode;
+
 	private OnListItemClickListener mCallback;
 
 	public interface OnListItemClickListener {
 		void onPhotoListItemClickListener(int id, String title,
 										  String content, double longitude, double latitude, String objUri, int amount);
+		void onSurveyListItemClickListener(String time, String date, int survey, JSONArray results);
 	}
 
 	public PhotoAlbumListFragment() {
@@ -62,9 +67,10 @@ public class PhotoAlbumListFragment extends ListFragment {
 		ArrayList<JSONObject> mListObj = new ArrayList<>();
 		// get the list of objects from parent activity
 		Bundle args = this.getArguments();
-		if (args != null && args.containsKey(JSON_PARSER)) {
+		if (args != null && args.containsKey(JSON_PARSER) && args.containsKey("mode")) {
 			JSONArrayParser jParser = args.getParcelable(JSON_PARSER);
 			mListObj = jParser.getJsonArrayList();
+			mode = args.getInt("mode");
 		}
 
 		mAdapter = new mArrayAdapter(this.getActivity(), this.getActivity()
@@ -79,20 +85,29 @@ public class PhotoAlbumListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// return the object to its activity
 		JSONObject key = mAdapter.getItem(position);
-		double longitude = key.optDouble(Constants.JSON_OBJECT_LONGITUDE, -1);
-		double latitude = key.optDouble(Constants.JSON_OBJECT_LATITUDE, -1);
-		String title = key.optString(Constants.JSON_OBJECT_TITLE, "");
-		String content = key.optString(Constants.JSON_OBJECT_CONTENT, "");
-		String obj_uri = key.optString(Constants.JSON_OBJECT_URI, "");
-		int obj_id = key.optInt(Constants.JSON_OBJECT_ID, -1);
-		int amount = key.optInt(Constants.JSON_OBJECT_AMOUNT);
+		if (mode == 0) {
+			double longitude = key.optDouble(Constants.JSON_OBJECT_LONGITUDE, -1);
+			double latitude = key.optDouble(Constants.JSON_OBJECT_LATITUDE, -1);
+			String title = key.optString(Constants.JSON_OBJECT_TITLE, "");
+			String content = key.optString(Constants.JSON_OBJECT_CONTENT, "");
+			String obj_uri = key.optString(Constants.JSON_OBJECT_URI, "");
+			int obj_id = key.optInt(Constants.JSON_OBJECT_ID, -1);
+			int amount = key.optInt(Constants.JSON_OBJECT_AMOUNT);
 
-		mCallback.onPhotoListItemClickListener(obj_id, title, content,
-				longitude, latitude, obj_uri, amount);
+			mCallback.onPhotoListItemClickListener(obj_id, title, content,
+					longitude, latitude, obj_uri, amount);
+		} else {
+			String time = key.optString(Constants.JSON_OBJECT_SURVEY_TIME, "");
+			String date = key.optString(Constants.JSON_OBJECT_SURVEY_DATE, "");
+			int survey = key.optInt(Constants.JSON_OBJECT_SURVEY_SURVEY, -1);
+			JSONArray results = key.optJSONArray(Constants.JSON_OBJECT_SURVEY_RESULT);
+
+			mCallback.onSurveyListItemClickListener(time, date, survey, results);
+		}
 	}
 
 	private class mArrayAdapter extends ArrayAdapter<JSONObject> {
-		private LayoutInflater mInflater;
+		private final LayoutInflater mInflater;
 
 		public mArrayAdapter(Activity activity, Context ctx) {
 			super(ctx, 0);
@@ -104,30 +119,43 @@ public class PhotoAlbumListFragment extends ListFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			final View view;
 			if (convertView == null) {
-				view = mInflater.inflate(R.layout.list_row, parent, false);
+				if(mode == 0)
+					view = mInflater.inflate(R.layout.list_row, parent, false);
+				else
+					view = mInflater.inflate(R.layout.survey_item, parent, false);
 			} else {
 				view = convertView;
 			}
 
 			JSONObject key = getItem(position);
+			if (mode == 0) {
+				ViewHolder holder = new ViewHolder();
+				holder.title = (TextView) view.findViewById(R.id.stuff_title);
+				holder.date = (TextView) view.findViewById(R.id.stuff_date);
+				holder.time = (TextView) view.findViewById(R.id.stuff_time);
+				holder.content = (TextView) view.findViewById(R.id.stuff_content);
+				holder.location = (TextView) view.findViewById(R.id.stuff_location);
 
-			ViewHolder holder = new ViewHolder();
-			holder.title = (TextView) view.findViewById(R.id.stuff_title);
-			holder.date = (TextView) view.findViewById(R.id.stuff_date);
-			holder.time = (TextView) view.findViewById(R.id.stuff_time);
-			holder.content = (TextView) view.findViewById(R.id.stuff_content);
-			holder.location = (TextView) view.findViewById(R.id.stuff_location);
+				holder.date.setText(key.optString(Constants.JSON_OBJECT_DATE));
+				holder.time.setText(key.optString(Constants.JSON_OBJECT_TIME));
+				holder.location.setText(key
+						.optString(Constants.JSON_OBJECT_LOCATION));
 
-			holder.date.setText(key.optString(Constants.JSON_OBJECT_DATE));
-			holder.time.setText(key.optString(Constants.JSON_OBJECT_TIME));
-			holder.location.setText(key
-					.optString(Constants.JSON_OBJECT_LOCATION));
+				String content = key.optString(Constants.JSON_OBJECT_CONTENT)
+						+ key.optString(Constants.JSON_OBJECT_URI);
+				holder.content.setText(content);
+				int amount = key.optInt(Constants.JSON_OBJECT_AMOUNT);
+				holder.title.setText(key.optString(Constants.JSON_OBJECT_TITLE) + " - " + amount + "ml");
+			} else {
+				ViewHolder holder = new ViewHolder();
+				holder.title = (TextView) view.findViewById(R.id.stuff_title);
+				holder.date = (TextView) view.findViewById(R.id.stuff_date);
+				holder.time = (TextView) view.findViewById(R.id.stuff_time);
 
-			String content = key.optString(Constants.JSON_OBJECT_CONTENT)
-					+ key.optString(Constants.JSON_OBJECT_URI);
-			holder.content.setText(content);
-			int amount = key.optInt(Constants.JSON_OBJECT_AMOUNT);
-			holder.title.setText(key.optString(Constants.JSON_OBJECT_TITLE) + " - " + amount + "ml");
+				holder.title.setText("Fragebogen: " + key.optString(Constants.JSON_OBJECT_SURVEY_SURVEY));
+				holder.date.setText(key.optString(Constants.JSON_OBJECT_SURVEY_DATE));
+				holder.time.setText(key.optString(Constants.JSON_OBJECT_SURVEY_TIME));
+			}
 			return view;
 		}
 	}

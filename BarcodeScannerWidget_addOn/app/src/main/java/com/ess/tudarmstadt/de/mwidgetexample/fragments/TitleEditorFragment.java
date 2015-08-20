@@ -66,8 +66,8 @@ public class TitleEditorFragment extends Fragment {
 	private ToggleButton showMap;
 	private boolean mapActive;
 
-	public static int _EDIT = 2;
-	public static int _DELETE_TOKEN = 1;
+	public final static int _EDIT = 2;
+	public final static int _DELETE_TOKEN = 1;
 
 	private HandleCallbackListener mCallback;
 
@@ -79,7 +79,7 @@ public class TitleEditorFragment extends Fragment {
 		// just an empty constructor
 	}
 
-	private LocationResult locationResult = new LocationResult() {
+	private final LocationResult locationResult = new LocationResult() {
 
 		@Override
 		public void gotLocation(Location location) {

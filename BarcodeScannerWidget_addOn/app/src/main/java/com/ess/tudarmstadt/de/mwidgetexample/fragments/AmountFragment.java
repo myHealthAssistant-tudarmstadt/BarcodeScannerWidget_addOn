@@ -1,7 +1,6 @@
 package com.ess.tudarmstadt.de.mwidgetexample.fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -18,15 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.ess.tudarmstadt.de.mwidgetexample.MainActivity;
 import com.ess.tudarmstadt.de.mwidgetexample.R;
 import com.ess.tudarmstadt.de.mwidgetexample.utils.Constants;
 import com.ess.tudarmstadt.de.mwidgetexample.utils.MyLocation;
-import com.ess.tudarmstadt.de.mwidgetexample.utils.DBHelper;
+import com.ess.tudarmstadt.de.mwidgetexample.JSON.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,6 +50,7 @@ public class AmountFragment extends Fragment {
     private EditText editText;
     private EditText editTextAmount;
 
+    private ProgressBar bar;
 
     @Override
     public void onAttach(Activity activity) {
@@ -134,20 +136,29 @@ public class AmountFragment extends Fragment {
                     editText.setError("Name eingeben!");
                     return;
                 }
-                saveAndDismiss(title);
+                try {
+                    saveAndDismiss(title);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        String title = MainActivity.mydb.getTitle(pop_content);
+        bar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+
+        String title = "";
+        if (MainActivity.barcodes.containsKey(pop_content)) {
+            title = MainActivity.barcodes.get(pop_content);
+        }
         if (!title.equals("")) {
             editText.setText(title);
-        } else if (isNetworkAvailable()) {
+        } else if (isNetworkAvailable() && pop_uri.equals("")) {
             new MyTask().execute();
         }
         return rootView;
     }
 
-    private MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+    private final MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
         @Override
         public void gotLocation(Location location) {
             if (location != null) {
@@ -160,29 +171,14 @@ public class AmountFragment extends Fragment {
         }
     };
 
-    private void saveAndDismiss(String title) {
+    private void saveAndDismiss(String title) throws JSONException {
         String obj_date = MainActivity.getTimestamp("dd-MM-yyyy");
         String obj_time = MainActivity.getTimestamp("kk:mm:ss");
         String address = getAddress(latitude, longitude);
         int amount = Integer.parseInt(editTextAmount.getText().toString());
-        JSONObject key = new JSONObject();
-        try {
-            key.putOpt(Constants.JSON_OBJECT_ID, -1);
-            key.putOpt(Constants.JSON_OBJECT_TITLE, title);
-            key.putOpt(Constants.JSON_OBJECT_CONTENT, pop_content);
-            key.putOpt(Constants.JSON_OBJECT_DATE, obj_date);
-            key.putOpt(Constants.JSON_OBJECT_TIME, obj_time);
-            key.putOpt(Constants.JSON_OBJECT_LONGITUDE, longitude);
-            key.putOpt(Constants.JSON_OBJECT_LATITUDE, latitude);
-            key.putOpt(Constants.JSON_OBJECT_LOCATION, address);
-            key.putOpt(Constants.JSON_OBJECT_URI, pop_uri);
-            key.putOpt(Constants.JSON_OBJECT_AMOUNT, amount);
-
-        } catch (org.json.JSONException e) {
-            Constants.logDebug("error", e.getMessage());
-            e.printStackTrace();
-        }
-
+        BarcodeItem barcodeItem = new BarcodeItem(
+                -1, title, pop_content,obj_date,obj_time,longitude,latitude,address,pop_uri,amount);
+        JSONObject key = BarcodeItemToJSON.getJSONfromBarcode(barcodeItem);
         // back to parent activity
         mCallback.onAmountCallbackListener(key);
     }
@@ -221,10 +217,16 @@ public class AmountFragment extends Fragment {
 	private class MyTask extends AsyncTask<String, String, String> {
 		public MyTask() {
 		}
+
+        @Override
+        protected void onPreExecute(){
+            bar.setVisibility(View.VISIBLE);
+        }
+
         @Override
 		protected String doInBackground(String... params) {
             HttpURLConnection urlConnection = null;
-            URL url = null;
+            URL url;
             String[] data = new String[19];
             for (int i = 0; i < 19; i++) {
                 data[i] = "";
@@ -276,13 +278,13 @@ public class AmountFragment extends Fragment {
             }
             String name = data[errorLine + 4].split("=")[1];
             if (name.equals("")) {
-                String detailName = data[errorLine + 5].split("=")[1];
-                return detailName;
+                return data[errorLine + 5].split("=")[1];
             }
             return name;
 		}
 		@Override
 		protected void onPostExecute(String result) {
+            bar.setVisibility(View.GONE);
             if (!result.equals("")) {
                 editText.setText(result);
             }

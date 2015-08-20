@@ -5,16 +5,16 @@
     android:background="?android:selectableItemBackground"
     android:orientation="vertical" >
 
+    <!--    Title   -->
     <TextView
         android:id="@+id/stuff_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="1dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="1dp"
-        android:paddingStart="10dp"
-        android:text="This&apos;s Title"
-        android:textSize="18dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -22,31 +22,32 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
+        <!--    Date    -->
         <TextView
             android:id="@+id/stuff_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="1dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="1dp"
-            android:paddingStart="10dp"
-            android:text="dd-mm-yyyy"
-            android:textSize="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="15sp"
             android:textStyle="italic" />
 
+        <!--    Time    -->
         <TextView
             android:id="@+id/stuff_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/stuff_date"
-            android:paddingEnd="1dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="1dp"
-            android:paddingStart="10dp"
-            android:text="HH:MM"
-            android:textSize="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:textSize="15sp"
             android:textStyle="italic" />
 
+        <!--    Location    -->
         <TextView
             android:id="@+id/stuff_location"
             android:layout_width="wrap_content"
@@ -55,30 +56,28 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/stuff_date"
-            android:paddingEnd="10dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="10dp"
-            android:paddingStart="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:singleLine="false"
-            android:text="Darmstadt Hbf"
-            android:textAlignment="gravity"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textStyle="italic" />
 
     </RelativeLayout>
 
+    <!-- Barcode    -->
     <TextView
         android:id="@+id/stuff_content"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:paddingEnd="1dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="1dp"
-        android:paddingStart="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:singleLine="false"
-        android:text="This&apos;s where I place \nthe content..."
         android:textStyle="normal" />
 
 </LinearLayout><!-- From: file:/home/lukas/AndroidStudioProjects/BarcodeScannerWidget_addOn-master/app/src/main/res/layout/list_row.xml -->

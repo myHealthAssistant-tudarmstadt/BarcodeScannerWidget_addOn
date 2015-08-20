@@ -118,15 +118,7 @@ public final class ShareActivity extends Activity {
 
   @Override
   public void onCreate(Bundle icicle) {
-    super.onCreate(icicle);
-    setContentView(R.layout.share);
 
-    findViewById(R.id.share_contact_button).setOnClickListener(contactListener);
-    findViewById(R.id.share_bookmark_button).setOnClickListener(bookmarkListener);
-    findViewById(R.id.share_app_button).setOnClickListener(appListener);
-    clipboardButton = findViewById(R.id.share_clipboard_button);
-    clipboardButton.setOnClickListener(clipboardListener);
-    findViewById(R.id.share_text_view).setOnKeyListener(textListener);
   }
 
   @Override

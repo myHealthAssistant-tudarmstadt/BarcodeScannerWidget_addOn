@@ -79,25 +79,6 @@ public class MainFragment extends Fragment {
 			}
 		});
 
-		Button show_album = (Button) rootView
-				.findViewById(R.id.main_show_album);
-		show_album.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				invokeCallback(SHOW_ALBUM_TOKEN);
-			}
-		});
-
-		Button show_survey = (Button) rootView.findViewById(R.id.main_show_survey);
-		show_survey.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				invokeCallback(SHOW_SURVEY_TOKEN);
-			}
-		});
-
 		TextView verInfo = (TextView) rootView.findViewById(R.id.version_nme);
 		verInfo.setText(getVersionInfo());
 
